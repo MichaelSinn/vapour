@@ -14,9 +14,11 @@ const gameSchema = new Schema({
     image: {
         type: Schema.Types.String
     },
-    genre: {
-        type: Schema.Types.String
-    },
+    genres: [
+        {
+            type: Schema.Types.String
+        }
+    ],
     storeLink: {
         type: Schema.Types.String
     },
