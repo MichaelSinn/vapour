@@ -6,7 +6,8 @@
     "commonjs": true,
     "node": true,
     // Add support for ES6 features
-    "es6": true
+    "es6": true,
+    "es2018": true
   },
   "rules": {
     "no-duplicate-case": "error",
