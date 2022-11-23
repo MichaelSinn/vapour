@@ -1,5 +1,8 @@
 const {AuthenticationError} = require('apollo-server-express');
 const {User, Game} = require('../models');
+const {signToken} = require('../utils/auth');
+
+const notLoggedIn = 'You need to be logged in to do that!';
 
 const resolvers = {
     Query: {
@@ -9,9 +12,9 @@ const resolvers = {
         },
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findById(context.user.id);
+                return User.findById(context.user._id);
             }
-            throw new AuthenticationError('You need to be logged in to do that!');
+            throw new AuthenticationError(notLoggedIn);
         },
         user: async (parent, args, context) => {
             if (context.user) {
@@ -22,7 +25,34 @@ const resolvers = {
             return await Game.findById(args.id);
         }
     },
-    Mutation: {}
+    Mutation: {
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
+
+            return {token, user};
+        },
+        saveGame: async (parent, args, context) =>{
+            if (context.user){
+                return await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$addToSet: {savedGames: args}},
+                    {new: true, runValidators: true}
+                );
+            }
+            throw new AuthenticationError(notLoggedIn);
+        },
+        removeGame: async (parent, args, context) =>{
+            if (context.user){
+                return await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$pull: {savedGames: {gameId: args.gameId}}},
+                    {new: true}
+                );
+            }
+            throw new AuthenticationError(notLoggedIn);
+        }
+    }
 };
 
 module.exports = resolvers;
