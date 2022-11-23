@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const gameSchema = new Schema({
+    gameId: {
+        type: Schema.Types.String,
+        required: true
+    },
     name: {
         type: Schema.Types.String,
         required: true
