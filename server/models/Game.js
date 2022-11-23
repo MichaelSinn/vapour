@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const gameSchema = new Schema({
+    gameId: {
+        type: Schema.Types.String,
+        required: true
+    },
     name: {
         type: Schema.Types.String,
         required: true
@@ -14,9 +18,11 @@ const gameSchema = new Schema({
     image: {
         type: Schema.Types.String
     },
-    genre: {
-        type: Schema.Types.String
-    },
+    genres: [
+        {
+            type: Schema.Types.String
+        }
+    ],
     storeLink: {
         type: Schema.Types.String
     },

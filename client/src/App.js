@@ -1,72 +1,67 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache,} from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+    uri: '/graphql',
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
+const authLink = setContext((_, {headers}) => {
+    const token = localStorage.getItem('id_token');
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : '',
+        },
+    };
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
 });
 
 function App() {
-  return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div>
-            <Nav />
-            <Routes>
-              <Route 
-                path="/" 
-                element={<Home />} 
-              />
-              <Route 
-                path="/login" 
-                element={<Login />} 
-              />
-              <Route 
-                path="/signup" 
-                element={<Signup />} 
-              />
-              <Route 
-                path="/profile/:userId" 
-                element={<Profile />} 
-              />
-              <Route 
-                path="/:gameId" 
-                element={<GameDetails />} 
-              />
-              <Route
-                path='/genres/:genreId'
-                element={<Genre />}
-              />
-              <Route 
-                path="*" 
-                element={<NoMatch />} 
-              />
-            </Routes>
-        </div>
-      </Router>
-    </ApolloProvider>
-  );
+    return (
+        <ApolloProvider client={client}>
+            <Router>
+                <div>
+                    <Nav/>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<Home/>}
+                        />
+                        <Route
+                            path="/login"
+                            element={<Login/>}
+                        />
+                        <Route
+                            path="/signup"
+                            element={<Signup/>}
+                        />
+                        <Route
+                            path="/profile/:userId"
+                            element={<Profile/>}
+                        />
+                        <Route
+                            path="/:gameId"
+                            element={<GameDetails/>}
+                        />
+                        <Route
+                            path="/genres/:genreId"
+                            element={<Genre/>}
+                        />
+                        <Route
+                            path="*"
+                            element={<NoMatch/>}
+                        />
+                    </Routes>
+                </div>
+            </Router>
+        </ApolloProvider>
+    );
 }
 
 export default App;
