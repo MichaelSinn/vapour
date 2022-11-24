@@ -7,28 +7,46 @@ const gameSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
+    backgroundImage: {
+        type: Schema.Types.String,
+    },
     name: {
         type: Schema.Types.String,
         required: true
     },
-    rating: {
+    parentPlatforms: [{
+        type: Schema.Types.String,
+    }],
+    metacriticUrl: {
+        type: Schema.Types.String,
+    },
+    metacriticRating: {
         type: Schema.Types.Number,
-        default: 0
     },
-    image: {
-        type: Schema.Types.String
+    released: {
+        type: Schema.Types.String,
     },
-    genres: [
-        {
-            type: Schema.Types.String
-        }
-    ],
-    storeLink: {
-        type: Schema.Types.String
+    genres: [{
+        type: Schema.Types.String,
+    }],
+    esrbRating: {
+        type: Schema.Types.String,
+    },
+    screenshots: [{
+        type: Schema.Types.String,
+    }],
+    redditUrl: {
+        type: Schema.Types.String,
+    },
+    redditName: {
+        type: Schema.Types.String,
     },
     description: {
-        type: Schema.Types.String
-    }
+        type: Schema.Types.String,
+    },
+    stores: [{
+        type: Schema.Types.String,
+    }],
 });
 
 const Game = mongoose.model('game', gameSchema);

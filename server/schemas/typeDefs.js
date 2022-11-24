@@ -3,13 +3,20 @@ const {gql} = require('apollo-server-express');
 const typeDefs = gql`
     type Game {
         _id: ID
-        gameId: String
-        name: String
-        rating: Int
-        image: String
-        genre: String
-        storeLink: String
+        gameId: String!
+        backgroundImage: String
+        name: String!
+        parentPlatforms: [String]
+        metacriticUrl: String
+        metacriticRating: Int
+        released: String
+        genres: [String]
+        esrbRating: String
+        screenshots: [String]
+        redditUrl: String
+        redditName: String
         description: String
+        stores: [String]
     }
     
     type User {
@@ -26,13 +33,20 @@ const typeDefs = gql`
     }
     
     input GameInput {
-        gameId: String
-        name: String
-        rating: Int
-        image: String
-        genre: String
-        storeLink: String
+        gameId: String!
+        backgroundImage: String
+        name: String!
+        parentPlatforms: [String]
+        metacriticUrl: String
+        metacriticRating: Int
+        released: String
+        genres: [String]
+        esrbRating: String
+        screenshots: [String]
+        redditUrl: String
+        redditName: String
         description: String
+        stores: [String]
     }
     
     type Query {
