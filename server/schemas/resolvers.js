@@ -32,7 +32,7 @@ const resolvers = {
 
             return {token, user};
         },
-        saveGame: async (parent, args, context) =>{
+        addToLibrary: async (parent, args, context) =>{
             if (context.user){
                 return await User.findOneAndUpdate(
                     {_id: context.user._id},
@@ -42,11 +42,31 @@ const resolvers = {
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        removeGame: async (parent, args, context) =>{
+        removeFromLibrary: async (parent, args, context) =>{
             if (context.user){
                 return await User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$pull: {savedGames: {gameId: args.gameId}}},
+                    {new: true}
+                );
+            }
+            throw new AuthenticationError(notLoggedIn);
+        },
+        addToWishlist: async (parent, args, context) =>{
+            if (context.user){
+                return await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$addToSet: {wishList: args}},
+                    {new: true, runValidators: true}
+                );
+            }
+            throw new AuthenticationError(notLoggedIn);
+        },
+        removeFromWishlist: async (parent, args, context) =>{
+            if (context.user){
+                return await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$pull: {wishList: {gameId: args.gameId}}},
                     {new: true}
                 );
             }
