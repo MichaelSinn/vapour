@@ -29,6 +29,7 @@ const typeDefs = gql`
         me: User
         user(username: String!): User
         singleGameById(gameId: ID!): Game
+        login(username: String!, password: String!): Auth
         allGames(genres: [String], title: String, tags: [String]): [Game]
     }
     
