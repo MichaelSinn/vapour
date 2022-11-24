@@ -2,7 +2,7 @@ import React from 'react';
 
 //Import React BulmaUI components to build page
 import 'bulma/css/bulma.min.css';
-import { Box, Block } from 'react-bulma';
+import { Box, Block } from 'react-bulma-components';
 
 //Components used on this page
 import GamesList from '../components/GamesList';

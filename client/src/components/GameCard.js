@@ -2,7 +2,7 @@ import React from "react";
 
 import "bulma/css/bulma.min.css";
 // TODO: Import Icon for platforms when sourced
-import { Card, Image, Button, ButtonGroup } from "react-bulma";
+import { Card, Image, Button } from "react-bulma-components";
 
 //TODO: Add eventHandling for when 'ADD' or 'VIEW' are clicked
 
@@ -22,17 +22,17 @@ export default function GameCard({ game }) {
         {/* Parent_platform.platform.name returns top-level platform 
         ex: 'Xbox', 'Playstation', 'Nintendo', 'PC' etc 
         TODO: Convert these Buttons to their Icons instead if possible */}
-        <ButtonGroup>
+        <Button.Group>
           {game.parent_platforms.map((platform) => {
             return <Button>{platform.name}</Button>;
           })}
-        </ButtonGroup>
-        <ButtonGroup>
+        </Button.Group>
+        <Button.Group>
           {/* Save game to user collection */}
           <Button>ADD</Button>
           {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
           <Button>VIEW</Button>
-        </ButtonGroup>
+        </Button.Group>
       </Card.Content>
     </Card>
   );
