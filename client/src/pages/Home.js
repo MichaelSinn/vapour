@@ -13,10 +13,10 @@ export default function Home() {
     return (
         <Box>
             <Block> { /** TODO: pass props for popular genres */}
-                <GamesList></GamesList>
+                <GamesList games={null}></GamesList>
             </Block>
-            <Block>{ /** TODO: (map) pass props for the other genres */}
-                <GamesList></GamesList>
+            <Block>{ /** TODO: pass props for the other genres and repeat this Block for each genre we want to display */}
+                <GamesList games={null}></GamesList>
             </Block>
         </Box>
     );

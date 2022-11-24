@@ -3,6 +3,10 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache,} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 
+//Import Pages
+import Home from './pages/Home';
+import SingleGame from './pages/SingleGame';
+
 const httpLink = createHttpLink({
     uri: '/graphql',
 });
@@ -47,7 +51,7 @@ function App() {
                         />
                         <Route
                             path="/:gameId"
-                            element={<GameDetails/>}
+                            element={<SingleGame/>}
                         />
                         <Route
                             path="/genres/:genreId"
