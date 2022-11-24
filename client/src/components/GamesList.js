@@ -2,7 +2,7 @@ import React from "react";
 
 //Import React BulmaUI components to build page
 import "bulma/css/bulma.min.css";
-import { Card } from "react-bulma";
+import { Card } from "react-bulma-components";
 
 //Components needed
 import GameCard from "../components/GameCard";
