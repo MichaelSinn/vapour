@@ -1,13 +1,16 @@
-export const searchGames = (query) => {
-    return fetch(`https://api.rawg.io/api/games?search=${query}&key=441bc230dd484d378172728bd72cc4b5`)
+require('dotenv').config();
+const API_KEY = process.env.API_KEY
+
+export const searchGames = (query, API_KEY) => {
+    return fetch(`https://api.rawg.io/api/games?search=${query}&key=${API_KEY}`)
 };
 
-export const popularGames = () => {
-    return fetch(`https://api.rawg.io/api/games?page_size=6&key=441bc230dd484d378172728bd72cc4b5`)
+export const popularGames = (API_KEY) => {
+    return fetch(`https://api.rawg.io/api/games?page_size=6&key=${API_KEY}`)
 };
 
-export const searchGenre = (id, page, page_size) => {
-    return fetch(`https://api.rawg.io/api/games?${page_size}=6&genres=${id}&page=${page}&key=441bc230dd484d378172728bd72cc4b5`)
+export const searchGenre = (id, page, page_size, API_KEY) => {
+    return fetch(`https://api.rawg.io/api/games?${page_size}=6&genres=${id}&page=${page}&key=${API_KEY}`)
 };
 
 //genre id's:
