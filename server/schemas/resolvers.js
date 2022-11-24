@@ -1,22 +1,21 @@
-const {AuthenticationError, UserInputError} = require('apollo-server-express');
-const {User, Game} = require('../models');
+const {AuthenticationError} = require('apollo-server-express');
+const {User} = require('../models');
 const {signToken} = require('../utils/auth');
 
 const notLoggedIn = 'You need to be logged in to do that!';
 const invalidLogin = 'Your username or password is incorrect.';
-const gameNotFound = 'There is no such game with this ID';
 
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findById(context.user._id).populate(['savedGames', 'wishList']);
+                return User.findById(context.user._id);
             }
             throw new AuthenticationError(notLoggedIn);
         },
         user: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({where: {username: args.username}}).populate(['savedGames', 'wishList']);
+                return User.findOne({where: {username: args.username}});
             }
         },
         login: async (parent, {username, password}) => {
@@ -44,10 +43,9 @@ const resolvers = {
         },
         addToLibrary: async (parent, {game}, context) =>{
             if (context.user){
-                const gameData = await Game.create({...game});
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$addToSet: {savedGames: gameData._id}},
+                    {$addToSet: {savedGames: {...game}}},
                     {new: true, runValidators: true}
                 );
             }
@@ -55,26 +53,19 @@ const resolvers = {
         },
         removeFromLibrary: async (parent, {gameId}, context) =>{
             if (context.user){
-                const game = await Game.findOne({gameId}); // TODO: Also check that the game is inside of the current user's library
-                if(!game){
-                    throw new UserInputError(gameNotFound);
-                }
-                const user = User.findOneAndUpdate(
+                return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$pull: {savedGames: game._id}},
+                    {$pull: {savedGames: {gameId}}},
                     {new: true}
-                ).populate('savedGames');
-                await Game.deleteOne({_id: game._id}); // TODO: Look into cascading deletion for this
-                return user;
+                );
             }
             throw new AuthenticationError(notLoggedIn);
         },
         addToWishlist: async (parent, {game}, context) =>{
             if (context.user){
-                const gameData = await Game.create({...game});
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$addToSet: {wishList: gameData._id}},
+                    {$addToSet: {wishList: {...game}}},
                     {new: true, runValidators: true}
                 );
             }
@@ -82,17 +73,11 @@ const resolvers = {
         },
         removeFromWishlist: async (parent, {gameId}, context) =>{
             if (context.user){
-                const game = await Game.findOne({gameId});
-                if(!game){
-                    throw new UserInputError(gameNotFound);
-                }
-                const user = User.findOneAndUpdate(
+                return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$pull: {wishList: {_id: game._id}}},
+                    {$pull: {wishList: {gameId}}},
                     {new: true}
-                ).populate('wishList');
-                await Game.deleteOne({_id: game._id}); // TODO: Look into cascading deletion for this
-                return user;
+                );
             }
             throw new AuthenticationError(notLoggedIn);
         }

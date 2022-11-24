@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const {Schema} = mongoose;
-const Game = require('./Game');
+const gameSchema = require('./Game');
 
 const userSchema = new Schema({
     username: {
@@ -13,30 +13,15 @@ const userSchema = new Schema({
     email: {
         type: Schema.Types.String,
         required: true,
-        unique: true
+        unique: true,
+        match: [/.+@.+\..+/, 'Must match an email address!'],
     },
     password: {
         type: Schema.Types.String,
         required: true
     },
-    savedGames: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: Game
-        }
-    ],
-    wishList: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: Game
-        }
-    ],
-    cart: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: Game
-        }
-    ]
+    savedGames: [gameSchema],
+    wishList: [gameSchema]
 },
 {
     toJSON: {
