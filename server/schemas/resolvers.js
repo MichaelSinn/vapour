@@ -3,6 +3,7 @@ const {User, Game} = require('../models');
 const {signToken} = require('../utils/auth');
 
 const notLoggedIn = 'You need to be logged in to do that!';
+const invalidLogin = 'Your username or password is incorrect.';
 
 const resolvers = {
     Query: {
@@ -21,8 +22,23 @@ const resolvers = {
                 return User.findOne({where: {username: args.username}});
             }
         },
+        login: async (parent, {username, password}) => {
+            const user = await User.findOne({username});
+            if (!user){
+                throw new AuthenticationError(invalidLogin);
+            }
+
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw){
+                throw new AuthenticationError(invalidLogin);
+            }
+
+            const token = signToken(user);
+            return {token, user};
+        },
         singleGameById: async (parent, args) => {
-            return await Game.findById(args.id);
+            return await Game.find({where: {gameId: args.gameId}});
         }
     },
     Mutation: {
