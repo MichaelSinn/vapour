@@ -15,11 +15,12 @@ module.exports = {
         if (!token) {
             return req;
         }
-
+        const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZW1haWxAZ21haWwuY29tIiwidXNlcm5hbWUiOiJ1c2VybmFtZSIsIl9pZCI6IjYzN2ZhZTJmNDMyNTdlYTgwYTgzNjMxMyJ9LCJpYXQiOjE2NjkzMTIwNTEsImV4cCI6MTY2OTMxOTI1MX0.-CszlyI6vkiDWzpSYMYvJwcUTIfFlXzpNo2lyczxE-Y';
         try {
-            const {data} = jwt.verify(token, secret, {maxAge: expiration});
+            const {data} = jwt.verify(testToken, secret, {maxAge: expiration});
             req.user = data;
         } catch (e) {
+            console.log(e);
             console.log('Invalid token');
         }
 
