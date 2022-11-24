@@ -29,7 +29,7 @@ const typeDefs = gql`
         me: User
         user(username: String!): User
         singleGameById(gameId: ID!): Game
-        allGames(genres: [String], title: String, tags: [String]): [Game]
+        allGames(genres: [String], title: String, tags: [String], platform: String): [Game]
     }
     
     type Mutation {
