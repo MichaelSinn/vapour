@@ -25,20 +25,30 @@ const typeDefs = gql`
         user: User
     }
     
+    input GameInput {
+        gameId: String
+        name: String
+        rating: Int
+        image: String
+        genre: String
+        storeLink: String
+        description: String
+    }
+    
     type Query {
         me: User
         user(username: String!): User
-        singleGameById(gameId: ID!): Game
+        singleGameById(gameId: String!): Game
         login(username: String!, password: String!): Auth
         allGames(genres: [String], title: String, tags: [String]): [Game]
     }
     
     type Mutation {
         addUser(username: String!, email: String!, password: String!): Auth
-        addToLibrary(gameId: ID!): User
-        removeFromLibrary(gameId: ID!): User
-        addToWishlist(gameId: ID!): User
-        removeFromWishlist(gameId: ID!): User
+        addToLibrary(game: GameInput!): User
+        removeFromLibrary(gameId: String!): User
+        addToWishlist(game: GameInput!): User
+        removeFromWishlist(gameId: String!): User
     }
 `;
 

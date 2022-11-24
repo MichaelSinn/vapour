@@ -7,9 +7,9 @@ const invalidLogin = 'Your username or password is incorrect.';
 
 const resolvers = {
     Query: {
-        allGames: async (parent, args) => {
+        allGames: async (parent, args) => { // May be replaced by a front end api call
             const searchParams = {...args};
-            return await Game.find({where: searchParams});
+            return Game.find({where: searchParams});
         },
         me: async (parent, args, context) => {
             if (context.user) {
@@ -37,8 +37,8 @@ const resolvers = {
             const token = signToken(user);
             return {token, user};
         },
-        singleGameById: async (parent, args) => {
-            return await Game.find({where: {gameId: args.gameId}});
+        singleGameById: async (parent, {gameId}) => { // May be replaced by a front end api call
+            return Game.find({gameId});
         }
     },
     Mutation: {
@@ -50,19 +50,21 @@ const resolvers = {
         },
         addToLibrary: async (parent, args, context) =>{
             if (context.user){
-                return await User.findOneAndUpdate(
+                const game = await Game.create(args);
+                return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$addToSet: {savedGames: args}},
+                    {$addToSet: {savedGames: game._id}},
                     {new: true, runValidators: true}
                 );
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        removeFromLibrary: async (parent, args, context) =>{
+        removeFromLibrary: async (parent, {gameId}, context) =>{
             if (context.user){
-                return await User.findOneAndUpdate(
+                const game = await Game.findOne({gameId});
+                return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$pull: {savedGames: {gameId: args.gameId}}},
+                    {$pull: {savedGames: {gameId: game._id}}},
                     {new: true}
                 );
             }
@@ -70,19 +72,21 @@ const resolvers = {
         },
         addToWishlist: async (parent, args, context) =>{
             if (context.user){
-                return await User.findOneAndUpdate(
+                const game = await Game.create(args);
+                return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$addToSet: {wishList: args}},
+                    {$addToSet: {wishList: game._id}},
                     {new: true, runValidators: true}
                 );
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        removeFromWishlist: async (parent, args, context) =>{
+        removeFromWishlist: async (parent, {gameId}, context) =>{
             if (context.user){
-                return await User.findOneAndUpdate(
+                const game = await Game.findOne({gameId});
+                return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$pull: {wishList: {gameId: args.gameId}}},
+                    {$pull: {wishList: {gameId: game._id}}},
                     {new: true}
                 );
             }
