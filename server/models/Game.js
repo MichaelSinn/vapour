@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const {Schema} = mongoose;
 
+// TODO: Setup a many-to-many relationship between User and Game
+
 const gameSchema = new Schema({
     gameId: {
         type: Schema.Types.String,
