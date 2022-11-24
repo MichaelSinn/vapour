@@ -8,10 +8,6 @@ const invalidLogin = 'Your username or password is incorrect.';
 
 const resolvers = {
     Query: {
-        allGames: async (parent, args) => { // May be replaced by a front end api call
-            const searchParams = {...args};
-            return Game.find({where: searchParams});
-        },
         me: async (parent, args, context) => {
             if (context.user) {
                 return User.findById(context.user._id).populate('savedGames');
@@ -37,9 +33,6 @@ const resolvers = {
 
             const token = signToken(user);
             return {token, user};
-        },
-        singleGameById: async (parent, {gameId}) => { // May be replaced by a front end api call
-            return Game.find({gameId});
         }
     },
     Mutation: {
@@ -74,12 +67,12 @@ const resolvers = {
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        addToWishlist: async (parent, args, context) =>{
+        addToWishlist: async (parent, {game}, context) =>{
             if (context.user){
-                const game = await Game.create(args);
+                const gameData = await Game.create({...game});
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$addToSet: {wishList: game._id}},
+                    {$addToSet: {wishList: gameData._id}},
                     {new: true, runValidators: true}
                 );
             }

@@ -52,9 +52,7 @@ const typeDefs = gql`
     type Query {
         me: User
         user(username: String!): User
-        singleGameById(gameId: String!): Game
         login(username: String!, password: String!): Auth
-        allGames(genres: [String], title: String, tags: [String]): [Game]
     }
     
     type Mutation {
