@@ -1,10 +1,10 @@
-const {AuthenticationError} = require('apollo-server-express');
+const {AuthenticationError, UserInputError} = require('apollo-server-express');
 const {User, Game} = require('../models');
 const {signToken} = require('../utils/auth');
-const {stringify} = require('nodemon/lib/utils');
 
 const notLoggedIn = 'You need to be logged in to do that!';
 const invalidLogin = 'Your username or password is incorrect.';
+const gameNotFound = 'There is no such game with this ID';
 
 const resolvers = {
     Query: {
@@ -55,8 +55,10 @@ const resolvers = {
         },
         removeFromLibrary: async (parent, {gameId}, context) =>{
             if (context.user){
-                const game = await Game.findOne({gameId});
-                console.log(stringify(game._id));
+                const game = await Game.findOne({gameId}); // TODO: Also check that the game is inside of the current user's library
+                if(!game){
+                    throw new UserInputError(gameNotFound);
+                }
                 const user = User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$pull: {savedGames: game._id}},
@@ -81,11 +83,14 @@ const resolvers = {
         removeFromWishlist: async (parent, {gameId}, context) =>{
             if (context.user){
                 const game = await Game.findOne({gameId});
+                if(!game){
+                    throw new UserInputError(gameNotFound);
+                }
                 const user = User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$pull: {wishList: {_id: game._id}}},
                     {new: true}
-                );
+                ).populate('wishList');
                 await Game.deleteOne({_id: game._id}); // TODO: Look into cascading deletion for this
                 return user;
             }
