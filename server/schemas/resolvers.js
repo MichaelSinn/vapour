@@ -10,13 +10,13 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findById(context.user._id).populate('savedGames');
+                return User.findById(context.user._id).populate(['savedGames', 'wishList']);
             }
             throw new AuthenticationError(notLoggedIn);
         },
         user: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({where: {username: args.username}}).populate('savedGames'); // TODO: Populate wishlist
+                return User.findOne({where: {username: args.username}}).populate(['savedGames', 'wishList']);
             }
         },
         login: async (parent, {username, password}) => {
