@@ -7,7 +7,7 @@ import Auth from '../utils/auth'
 
 //Import React BulmaUI components to build page
 import 'bulma/css/bulma.min.css';
-import { Box, Form, Container, Button, Icon } from 'react-bulma';
+import { Box, Form, Container, Button, Icon } from 'react-bulma-components';
 
 const Signup = () => {
 
