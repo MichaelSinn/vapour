@@ -2,7 +2,7 @@ import React from 'react';
 
 //Import React BulmaUI components to build page
 import 'bulma/css/bulma.min.css';
-import { Card } from 'react-bulma-components';
+import { Columns } from 'react-bulma-components';
 
 //Components needed
 import GameCard from '../components/GameCard';
@@ -18,10 +18,12 @@ import GameCard from '../components/GameCard';
  game.parent_platforms */
 export default function GamesList(games) {
     return (
-        <Card.Group>
-            {games.map((game) => {
-                return <GameCard game={game} />;
-            })}
-        </Card.Group>
+        <Columns gap={1}>
+            <Columns.Column size={2}>
+                {games.map((game) => {
+                    return <GameCard game={game} />;
+                })}
+            </Columns.Column>
+        </Columns>
     );
 }
