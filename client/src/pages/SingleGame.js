@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 //Import React BulmaUI components to build page
-import "bulma/css/bulma.min.css";
-import { Box } from "react-bulma-components";
+import 'bulma/css/bulma.min.css';
+import { Box } from 'react-bulma-components';
 
 //Components used on this page
-import GameDetails from "../components/GameDetails";
+import GameDetails from '../components/GameDetails';
 
 /*
  SingleGame will display the advanced details of the passed game.
@@ -23,9 +23,9 @@ import GameDetails from "../components/GameDetails";
  reddit_name
 */
 export default function SingleGame({ game }) {
-  return (
-    <Box>
-      <GameDetails game={game}></GameDetails>
-    </Box>
-  );
+    return (
+        <Box>
+            <GameDetails game={game}></GameDetails>
+        </Box>
+    );
 }

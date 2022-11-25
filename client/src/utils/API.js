@@ -1,16 +1,17 @@
 require('dotenv').config();
-const API_KEY = process.env.API_KEY
+// eslint-disable-next-line no-unused-vars
+const API_KEY = process.env.API_KEY;
 
 export const searchGames = (query, API_KEY) => {
-    return fetch(`https://api.rawg.io/api/games?search=${query}&exclude_stores=4,5,7,8,9,10&key=${API_KEY}`)
+    return fetch(`https://api.rawg.io/api/games?search=${query}&exclude_stores=4,5,7,8,9,10&key=${API_KEY}`);
 };
 
 export const popularGames = (API_KEY) => {
-    return fetch(`https://api.rawg.io/api/games?page_size=6&key=${API_KEY}`)
+    return fetch(`https://api.rawg.io/api/games?page_size=6&key=${API_KEY}`);
 };
 
 export const searchGenre = (id, page, page_size, API_KEY) => {
-    return fetch(`https://api.rawg.io/api/games?${page_size}=6&genres=${id}&page=${page}&key=${API_KEY}`)
+    return fetch(`https://api.rawg.io/api/games?${page_size}=6&genres=${id}&page=${page}&key=${API_KEY}`);
 };
 
 //genre id's:
