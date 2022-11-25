@@ -18,6 +18,7 @@ export default function Home() {
             <Block>{ /** TODO: pass props for the other genres and repeat this Block for each genre we want to display */}
                 <GamesList games={null}></GamesList>
             </Block>
+            <p>Home</p>
         </Box>
     );
 }
