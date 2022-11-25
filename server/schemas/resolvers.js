@@ -43,13 +43,9 @@ const resolvers = {
         },
         addToLibrary: async (parent, {game}, context) => {
             if (context.user) {
-                // Lord forgive me for the code below
-                const duplicateCheck = await User.findById(context.user._id);
-
-                for (let i = 0; i < duplicateCheck.savedGames.length; i++) {
-                    if (duplicateCheck.savedGames[i].gameId === game.gameId){
-                        return duplicateCheck;
-                    }
+                const duplicateCheck = await User.findOne({_id: context.user._id, 'savedGames.gameId': {$eq: game.gameId}});
+                if (duplicateCheck){
+                    return duplicateCheck;
                 }
 
                 return User.findOneAndUpdate(
@@ -72,12 +68,9 @@ const resolvers = {
         },
         addToWishlist: async (parent, {game}, context) => {
             if (context.user) {
-                const duplicateCheck = await User.findById(context.user._id);
-
-                for (let i = 0; i < duplicateCheck.wishList.length; i++) {
-                    if (duplicateCheck.wishList[i].gameId === game.gameId){
-                        return duplicateCheck;
-                    }
+                const duplicateCheck = await User.findOne({_id: context.user._id, 'wishList.gameId': {$eq: game.gameId}});
+                if (duplicateCheck){
+                    return duplicateCheck;
                 }
 
                 return User.findOneAndUpdate(
