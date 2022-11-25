@@ -20,13 +20,13 @@ const resolvers = {
         },
         login: async (parent, {username, password}) => {
             const user = await User.findOne({username});
-            if (!user){
+            if (!user) {
                 throw new AuthenticationError(invalidLogin);
             }
 
             const correctPw = await user.isCorrectPassword(password);
 
-            if (!correctPw){
+            if (!correctPw) {
                 throw new AuthenticationError(invalidLogin);
             }
 
@@ -41,8 +41,17 @@ const resolvers = {
 
             return {token, user};
         },
-        addToLibrary: async (parent, {game}, context) =>{
-            if (context.user){
+        addToLibrary: async (parent, {game}, context) => {
+            if (context.user) {
+                // Lord forgive me for the code below
+                const duplicateCheck = await User.findById(context.user._id);
+
+                for (let i = 0; i < duplicateCheck.savedGames.length; i++) {
+                    if (duplicateCheck.savedGames[i].gameId === game.gameId){
+                        return duplicateCheck;
+                    }
+                }
+
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$addToSet: {savedGames: {...game}}},
@@ -51,8 +60,8 @@ const resolvers = {
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        removeFromLibrary: async (parent, {gameId}, context) =>{
-            if (context.user){
+        removeFromLibrary: async (parent, {gameId}, context) => {
+            if (context.user) {
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$pull: {savedGames: {gameId}}},
@@ -61,8 +70,16 @@ const resolvers = {
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        addToWishlist: async (parent, {game}, context) =>{
-            if (context.user){
+        addToWishlist: async (parent, {game}, context) => {
+            if (context.user) {
+                const duplicateCheck = await User.findById(context.user._id);
+
+                for (let i = 0; i < duplicateCheck.wishList.length; i++) {
+                    if (duplicateCheck.wishList[i].gameId === game.gameId){
+                        return duplicateCheck;
+                    }
+                }
+
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$addToSet: {wishList: {...game}}},
@@ -71,8 +88,8 @@ const resolvers = {
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        removeFromWishlist: async (parent, {gameId}, context) =>{
-            if (context.user){
+        removeFromWishlist: async (parent, {gameId}, context) => {
+            if (context.user) {
                 return User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$pull: {wishList: {gameId}}},
