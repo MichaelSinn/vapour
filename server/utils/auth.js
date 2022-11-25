@@ -15,9 +15,8 @@ module.exports = {
         if (!token) {
             return req;
         }
-        const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZW1haWxAZ21haWwuY29tIiwidXNlcm5hbWUiOiJ1c2VybmFtZSIsIl9pZCI6IjYzN2ZjNDA1Y2JmMjMxZTE5NGUyOWVlZSJ9LCJpYXQiOjE2NjkzODkxNTcsImV4cCI6MTY2OTM5NjM1N30.kFt-P5YxNwvfsG8kqXcqVJ3i8TIYpuRlUF8L3lOlgrs';
         try {
-            const {data} = jwt.verify(testToken, secret, {maxAge: expiration});
+            const {data} = jwt.verify(token, secret, {maxAge: expiration});
             req.user = data;
         } catch (e) {
             console.log(e);
