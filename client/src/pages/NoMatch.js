@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Lost from '../assets/404.png'
 import 'bulma/css/bulma.min.css';
