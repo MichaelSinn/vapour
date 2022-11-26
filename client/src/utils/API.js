@@ -1,17 +1,15 @@
-require('dotenv').config();
+const API_KEY = process.env.REACT_APP_API_KEY;
 
-const API_KEY = process.env.API_KEY;
-
-export const searchGames = (query) => {
-    return fetch(`https://api.rawg.io/api/games?search=${query}&exclude_stores=4,5,7,8,9,10&key=${API_KEY}`);
+export const searchGames = async (query) => {
+    return await fetch(`https://api.rawg.io/api/games?search=${query}&exclude_stores=4,5,7,8,9,10&key=${API_KEY}`);
 };
 
-export const popularGames = () => {
-    return fetch(`https://api.rawg.io/api/games?page_size=6&key=${API_KEY}`);
+export const popularGames = async () => {
+    return await fetch(`https://api.rawg.io/api/games?page_size=6&key=${API_KEY}`);
 };
 
-export const searchGenre = (id, page) => {
-    return fetch(`https://api.rawg.io/api/games?page_size=6&genres=${id}&page=${page}&key=${API_KEY}`);
+export const searchGenre = async (id, page) => {
+    return await fetch(`https://api.rawg.io/api/games?page_size=6&genres=${id}&page=${page}&key=${API_KEY}`);
 };
 
 //genre id's:
