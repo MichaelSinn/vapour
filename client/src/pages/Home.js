@@ -33,14 +33,17 @@ export default function Home() {
     }
 
     return (
-        <Box>
-            <Block> { /** TODO: pass props for popular genres */}
-                <GamesList games={displayGenre()}></GamesList>
-            </Block>
-            <Block>{ /** TODO: pass props for the other genres and repeat this Block for each genre we want to display */}
-                <GamesList games={displayGenre()}></GamesList>
-            </Block>
-            <p>Home</p>
-        </Box>
+            <Box>
+              {/** TODO: pass props for popular games */}
+              <GamesList games={displayGenre()} heroHeader="Popular"/>
+              {/** TODO: pass Action props */}
+              <GamesList games={displayGenre()} heroHeader="Action"/>
+              {/** TODO: pass Sports props */}
+              <GamesList games={displayGenre()} heroHeader="Sports"/>
+              {/** TODO: pass Strategy props */}
+              <GamesList games={displayGenre()} heroHeader="Strategy"/>
+              {/** TODO: pass Role-Playing props */}
+              <GamesList games={displayGenre()} heroHeader="Role-Playing"/>
+            </Box>
     );
 }
