@@ -61,12 +61,12 @@ function App() {
                 <NewNav genres={genres} gameCount={1} userID={1}/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    {/*<Route path="/login" element={<Login/>}/>*/}
-                    {/*<Route path="/signup" element={<Signup/>}/>*/}
-                    {/*<Route path="/profile/:userId" element={<Profile/>}/>*/}
-                    {/*<Route path="/:gameId" element={<SingleGame/>}/>*/}
-                    {/*<Route path="/genres/:genreId" element={<Genre/>}/>*/}
-                    {/*<Route path="*" element={<NoMatch/>}/>*/}
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/signup" element={<Signup/>}/>
+                    <Route path="/profile/:userId" element={<Profile/>}/>
+                    <Route path="/:gameId" element={<SingleGame/>}/>
+                    <Route path="/genres/:genreId" element={<Genre/>}/>
+                    <Route path="*" element={<NoMatch/>}/>
                 </Routes>
             </Router>
         </ApolloProvider>
