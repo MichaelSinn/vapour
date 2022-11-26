@@ -16,14 +16,18 @@ import GameCard from '../components/GameCard';
  game.metacritic
  game.name
  game.parent_platforms */
-export default function GamesList(games) {
-    return (
-        <Columns gap={1}>
-            <Columns.Column size={2}>
-                {games.map((game) => {
-                    return <GameCard game={game} />;
-                })}
-            </Columns.Column>
-        </Columns>
-    );
+export default function GamesList({games}) {
+    console.log(games);
+    if (games){
+        return (
+            <Columns gap={1}>
+                <Columns.Column size={2}>
+                    {games.map((game) => {
+                        return <GameCard game={game} />;
+                    })}
+                </Columns.Column>
+            </Columns>
+        );
+    }
+    return null;
 }
