@@ -18,38 +18,38 @@ const Signup = () => {
     });
     const [addUser, { error, data }] = useMutation(ADD_USER)
 
-    const [errors, updateErrors] = useState([])
+    const [errors, updateErrors] = useState([]);
 
     const sendMessage = (e) => {
         e.preventDefault();
         formState.username('');
         formState.email('');
         formState.password('');
-    }
+    };
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-    
+        const {name, value} = event.target;
+
         setFormState({
-          ...formState,
-          [name]: value,
+            ...formState,
+            [name]: value,
         });
-      };
+    };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-    
+
         try {
-          const { data } = await addUser({
-            variables: { ...formState },
-          });
-    
-          Auth.login(data.addUser.token);
+            const {data} = await addUser({
+                variables: {...formState},
+            });
+
+            Auth.login(data.addUser.token);
         } catch (e) {
-          console.error(e);
+            console.error(e);
         }
-      };
-    
+    };
+
 
     return (
         <Container>
@@ -122,7 +122,7 @@ const Signup = () => {
                 )}
             </Box>
         </Container>
-    )
-}
+    );
+};
 
-export default Signup
+export default Signup;
