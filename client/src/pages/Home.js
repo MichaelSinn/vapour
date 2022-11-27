@@ -32,7 +32,7 @@ export default function Home() {
     };
 
     return (
-        <Box className="container">
+        <Box className="container is-fluid">
             {/** TODO: pass props for popular games */}
             <GamesList games={displayGenre()} heroHeader="Popular"/>
             {/** TODO: pass Action props */}

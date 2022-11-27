@@ -19,10 +19,13 @@ export default function GamesList({games, heroHeader}) {
     console.log(games);
     if (games) {
         return (
-            <div className="columns">
-                {games.map((game) => {
-                    return <GameCard game={game}/>;
-                })}
+            <div>
+                <h3 className="subtitle">{heroHeader}</h3>
+                <div className="columns">
+                    {games.map((game) => {
+                        return <GameCard game={game}/>;
+                    })}
+                </div>
             </div>
         );
     }
