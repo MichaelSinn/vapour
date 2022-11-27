@@ -20,13 +20,6 @@ const Signup = () => {
 
     const [errors, updateErrors] = useState([])
 
-    const sendMessage = (e) => {
-        e.preventDefault();
-        formState.username('');
-        formState.email('');
-        formState.password('');
-    }
-
     const handleChange = (event) => {
         const { name, value } = event.target;
     
@@ -38,12 +31,12 @@ const Signup = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-    
+        console.log(formState);
         try {
-          const { data } = await addUser({
-            variables: { ...formState },
-          });
-    
+            const { data } = await addUser({
+                variables: { ...formState },
+              });
+
           Auth.login(data.addUser.token);
         } catch (e) {
           console.error(e);
@@ -60,12 +53,12 @@ const Signup = () => {
                 <Link to="/">back to the homepage.</Link>
                 </p>
             ) : (
-                <form>
+                <form onSubmit={handleFormSubmit}>
                 {/* Username Field */}
                     <Form.Field>
                         <Form.Label>Username</Form.Label>
                         <Form.Control>
-                            <Form.Input placeholder="Username" name="name" value={formState.username} onChange={handleChange} onBlur={(e) => {
+                            <Form.Input placeholder="Username" name="username" type='text' value={formState.username} onChange={handleChange} onBlur={(e) => {
                         if (formState.username.length === 0 && !errors.includes('Usermame is required')) updateErrors([...errors, 'Usermame is required']);
                         else {
                             const updatedErrors = errors.map(error=>{
@@ -86,7 +79,7 @@ const Signup = () => {
                     <Form.Field>
                         <Form.Label>Email</Form.Label>
                         <Form.Control>
-                            <Form.Input placeholder="example@email.com" name="email" value={formState.email} onChange={handleChange} onBlur={(e) => {
+                            <Form.Input placeholder="example@email.com" name="email" type='email' value={formState.email} onChange={handleChange} onBlur={(e) => {
                             if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formState.email) === false && !errors.includes('Email is invalid')) updateErrors([...errors, 'Email is invalid']);
                             else {
                                 const updatedErrors = errors.map(error=>{
@@ -116,7 +109,7 @@ const Signup = () => {
                     {/* Password box */}
                     <Link to='/login'>Already have an account? Login here.</Link>
                     <Button.Group>
-                    <Button fullwidth rounded color="primary" type = 'submit' onClick={() => handleFormSubmit}>Signup</Button>
+                    <Button fullwidth rounded color="primary" type = 'submit'>Signup</Button>
                     </Button.Group>
                     </form>
                 )}
