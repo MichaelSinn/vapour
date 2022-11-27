@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 //Import React BulmaUI components to build page
 import 'bulma/css/bulma.min.css';
 
 //Components used on this page
-import {searchGenre} from '../utils/API';
 import {useFetch} from 'react-async';
-import {Block, Box} from 'react-bulma-components';
+import {Box} from 'react-bulma-components';
 import GamesList from '../components/GamesList';
 
 // Home will show the top 5 most popular Genres and their games
@@ -30,20 +29,20 @@ export default function Home() {
             return data.results;
         }
         return null;
-    }
+    };
 
     return (
-            <Box>
-              {/** TODO: pass props for popular games */}
-              <GamesList games={displayGenre()} heroHeader="Popular"/>
-              {/** TODO: pass Action props */}
-              <GamesList games={displayGenre()} heroHeader="Action"/>
-              {/** TODO: pass Sports props */}
-              <GamesList games={displayGenre()} heroHeader="Sports"/>
-              {/** TODO: pass Strategy props */}
-              <GamesList games={displayGenre()} heroHeader="Strategy"/>
-              {/** TODO: pass Role-Playing props */}
-              <GamesList games={displayGenre()} heroHeader="Role-Playing"/>
-            </Box>
+        <Box className="container">
+            {/** TODO: pass props for popular games */}
+            <GamesList games={displayGenre()} heroHeader="Popular"/>
+            {/** TODO: pass Action props */}
+            <GamesList games={displayGenre()} heroHeader="Action"/>
+            {/** TODO: pass Sports props */}
+            <GamesList games={displayGenre()} heroHeader="Sports"/>
+            {/** TODO: pass Strategy props */}
+            <GamesList games={displayGenre()} heroHeader="Strategy"/>
+            {/** TODO: pass Role-Playing props */}
+            <GamesList games={displayGenre()} heroHeader="Role-Playing"/>
+        </Box>
     );
 }
