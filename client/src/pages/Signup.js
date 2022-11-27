@@ -18,19 +18,30 @@ const Signup = () => {
     });
     const [addUser, { error, data }] = useMutation(ADD_USER)
 
-    const [errors, updateErrors] = useState([])
+    const [errors, updateErrors] = useState([]);
 
+<<<<<<< HEAD
+=======
+    const sendMessage = (e) => {
+        e.preventDefault();
+        formState.username('');
+        formState.email('');
+        formState.password('');
+    };
+
+>>>>>>> a13eefe776e522c724d1be6add4133969c6fc170
     const handleChange = (event) => {
-        const { name, value } = event.target;
-    
+        const {name, value} = event.target;
+
         setFormState({
-          ...formState,
-          [name]: value,
+            ...formState,
+            [name]: value,
         });
-      };
+    };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+<<<<<<< HEAD
         console.log(formState);
         try {
             const { data } = await addUser({
@@ -38,11 +49,20 @@ const Signup = () => {
               });
 
           Auth.login(data.addUser.token);
+=======
+
+        try {
+            const {data} = await addUser({
+                variables: {...formState},
+            });
+
+            Auth.login(data.addUser.token);
+>>>>>>> a13eefe776e522c724d1be6add4133969c6fc170
         } catch (e) {
-          console.error(e);
+            console.error(e);
         }
-      };
-    
+    };
+
 
     return (
         <Container>
@@ -115,7 +135,7 @@ const Signup = () => {
                 )}
             </Box>
         </Container>
-    )
-}
+    );
+};
 
-export default Signup
+export default Signup;
