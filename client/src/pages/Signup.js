@@ -16,7 +16,7 @@ const Signup = () => {
         email: '',
         password: '',
     });
-    const [addUser, { error, data }] = useMutation({ADD_USER})
+    const [addUser, { error, data }] = useMutation(ADD_USER)
 
     const [errors, updateErrors] = useState([])
 
@@ -54,16 +54,16 @@ const Signup = () => {
     return (
         <Container>
             <Box>
-            { data ?(
+            { data ? (
               <p>
                 Success! Your account has been created!
                 <Link to="/">back to the homepage.</Link>
-              </p>
+                </p>
             ) : (
-                <Form onSubmit={sendMessage}>
+                <form>
                 {/* Username Field */}
                     <Form.Field>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Username</Form.Label>
                         <Form.Control>
                             <Form.Input placeholder="Username" name="name" value={formState.username} onChange={handleChange} onBlur={(e) => {
                         if (formState.username.length === 0 && !errors.includes('Usermame is required')) updateErrors([...errors, 'Usermame is required']);
@@ -84,7 +84,7 @@ const Signup = () => {
                     </Form.Field>
                     {/* Email form */}
                     <Form.Field>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Email</Form.Label>
                         <Form.Control>
                             <Form.Input placeholder="example@email.com" name="email" value={formState.email} onChange={handleChange} onBlur={(e) => {
                             if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formState.email) === false && !errors.includes('Email is invalid')) updateErrors([...errors, 'Email is invalid']);
@@ -96,7 +96,7 @@ const Signup = () => {
                             }
                         }}/>
                             <Icon align="left">
-                                <i className="" />
+                                <i className="fas fa-user" />
                             </Icon>
                         </Form.Control>
                         {errors.includes('Email is invalid') && (
@@ -109,7 +109,7 @@ const Signup = () => {
                         <Form.Control>
                             <Form.Input placeholder="Password" name="password" type="password" value={formState.password} onChange={handleChange} />
                             <Icon align="left">
-                                <i className="" />
+                                <i className="Github" />
                             </Icon>
                         </Form.Control>
                     </Form.Field>
@@ -118,7 +118,8 @@ const Signup = () => {
                     <Button.Group>
                     <Button fullwidth rounded color="primary" type = 'submit' onClick={() => handleFormSubmit}>Signup</Button>
                     </Button.Group>
-                </Form>)}
+                    </form>
+                )}
             </Box>
         </Container>
     )

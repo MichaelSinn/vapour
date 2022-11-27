@@ -7,7 +7,7 @@ import { GET_ME } from '../utils/queries'
 import GamesList from '../components/GamesList';
 import WishList from '../components/Wishlist';
 
-export default function () {
+export default function Profile () {
     const { loading, data } = useQuery(GET_ME)
     const username = data?.me.username
     const savedGames = data?.me.savedGames
