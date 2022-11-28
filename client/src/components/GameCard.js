@@ -83,7 +83,6 @@ export default function GameCard({game}) {
         TODO: Convert these Buttons to their Icons instead if possible */}
                     <Button.Group>
                         {game.parent_platforms.map((item) => {
-                            // console.log(item);
                             if (platform(item.platform.id)){
                                 return (
                                     <Icon className="m-2" renderAs="img" src={platform(item.platform.id)}/>

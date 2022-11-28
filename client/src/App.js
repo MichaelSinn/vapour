@@ -4,17 +4,16 @@ import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache,} from '@apo
 import {setContext} from '@apollo/client/link/context';
 
 // Import Nav component to route users across pages
-import Nav from './components/Nav';
 
 //Import Pages
 import Home from './pages/Home';
-import NewNav from './components/NewNav';
+import Nav from './components/Nav';
 import SingleGame from './pages/SingleGame';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
-import Genre from './pages/Genre';
 import NoMatch from './pages/NoMatch';
+import Genre from './pages/Genre';
 
 const httpLink = createHttpLink({
     uri: '/graphql',
@@ -58,14 +57,14 @@ function App() {
     return (
         <ApolloProvider client={client}>
             <Router>
-                <NewNav genres={genres} gameCount={1} userID={1}/>
+                <Nav genres={genres} gameCount={1}/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/signup" element={<Signup/>}/>
                     <Route path="/profile/:userId" element={<Profile/>}/>
                     <Route path="/:gameId" element={<SingleGame/>}/>
-                    {/* <Route path="/genres/:genreId" element={<Genre/>}/> */}
+                    <Route path="/genres/:genreId" element={<Genre/>}/>
                     <Route path="*" element={<NoMatch/>}/>
                 </Routes>
             </Router>
