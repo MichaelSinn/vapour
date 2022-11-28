@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import NoMatch from './pages/NoMatch';
+import Genre from './pages/Genre';
 
 const httpLink = createHttpLink({
     uri: '/graphql',
@@ -63,7 +64,7 @@ function App() {
                     <Route path="/signup" element={<Signup/>}/>
                     <Route path="/profile/:userId" element={<Profile/>}/>
                     <Route path="/:gameId" element={<SingleGame/>}/>
-                    {/* <Route path="/genres/:genreId" element={<Genre/>}/> */}
+                    <Route path="/genres/:genreId" element={<Genre/>}/>
                     <Route path="*" element={<NoMatch/>}/>
                 </Routes>
             </Router>
