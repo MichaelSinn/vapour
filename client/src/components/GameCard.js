@@ -42,7 +42,6 @@ export default function GameCard({ game }) {
         TODO: Convert these Buttons to their Icons instead if possible */}
           <Button.Group>
             {game.parent_platforms.map((platform) => {
-              console.log(platform);
               return (
                 <Button size="small" color={"dark"}>
                   {platform.name}
