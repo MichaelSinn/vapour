@@ -171,11 +171,11 @@ export default function GameDetails({ game }) {
                             src={store(item.store.id)}
                           >
                             <br />
-                            <Icon
-                              //renderAs="img"
-                              src={`../assets/${item.store.slug}.svg`}
-                            />
-                            {console.log(item.store.slug+".svg")}
+                            {/* <Icon
+                              //renderAs="img" ${item.store.slug}
+                              src={`../assets/xbox-store.svg`}
+                            /> */}
+                            {/* console.log(item.store.slug+".svg")*/}
                             {item.store.name}
                           </Button>
                         </a>
