@@ -45,36 +45,37 @@ const Login = () => {
     return (
         <Container>
             <Box>
-                <Form.Field>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control>
-                        <Form.Input placeholder="Username" name="name" value={formState.username} onChange={handleChange} />
-                        <Icon align="left">
-                            <i className="fas fa-user" />
-                        </Icon>
-                    </Form.Control>
-                    {error && (
-                    <Form.Help color="danger">{error.message}</Form.Help>
-                    )}
-                </Form.Field>
-                <Link></Link>
-                <Form.Field>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control>
-                        <Form.Input placeholder="Password" name="password" type="password" value={formState.password} onChange={handleChange} />
-                        <Icon align="left">
-                            <i className="github" />
-                        </Icon>
-                    </Form.Control>
-                    {error && (
-                    <Form.Help color="danger">{error.message}</Form.Help>
-                    )}
-                </Form.Field>
-                <Link to = '/signup'>Don't have an account? Signup here</Link>
-                <Button.Group>
-                <Button fullwidth rounded color="primary" to = '/' onClick={() => handleFormSubmit}>Login</Button>
-                </Button.Group>
-
+                <form onSubmit={handleFormSubmit}>
+                    <Form.Field>
+                        <Form.Label>Userame</Form.Label>
+                        <Form.Control>
+                            <Form.Input placeholder="Username" name="username" type='text' value={formState.username} onChange={handleChange} />
+                            <Icon align="left">
+                                <i className="fas fa-user" />
+                            </Icon>
+                        </Form.Control>
+                        {error && (
+                        <Form.Help color="danger">{error.message}</Form.Help>
+                        )}
+                    </Form.Field>
+                    <Link></Link>
+                    <Form.Field>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control>
+                            <Form.Input placeholder="Password" name="password" type="password" value={formState.password} onChange={handleChange} />
+                            <Icon align="left">
+                                <i className="github" />
+                            </Icon>
+                        </Form.Control>
+                        {error && (
+                        <Form.Help color="danger">{error.message}</Form.Help>
+                        )}
+                    </Form.Field>
+                    <Link to = '/signup'>Don't have an account? Signup here</Link>
+                    <Button.Group>
+                    <Button fullwidth rounded color="primary" type='submit'>Login</Button>
+                    </Button.Group>
+                </form>
             </Box>
         </Container>
     )

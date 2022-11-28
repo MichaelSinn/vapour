@@ -19,13 +19,12 @@ export default function Home() {
         data,
         error
     } = useFetch(`https://api.rawg.io/api/games?page_size=6&genres=${id}&page=${page}&key=${API_KEY}`, {headers: {accept: 'application/json'}});
-
+   
     const displayGenre = () => {
         if (error) {
             return error.message;
         }
         if (data) {
-            console.log(data.results);
             return data.results;
         }
         return null;
