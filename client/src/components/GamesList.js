@@ -21,7 +21,7 @@ export default function GamesList({games, heroHeader}) {
         return (
             <div>
                 <h3 className="subtitle">{heroHeader}</h3>
-                <div className="columns">
+                <div className="columns is-multiline">
                     {games.map((game) => {
                         return <GameCard game={game}/>;
                     })}

@@ -18,9 +18,9 @@ export default function Home() {
     const {
         data,
         error
-    } = useFetch(`https://api.rawg.io/api/games?page_size=6&genres=${id}&page=${page}&key=${API_KEY}`, {headers: {accept: 'application/json'}});
-   
-    const displayGenre = () => {
+    } = useFetch(`https://api.rawg.io/api/games?page_size=18&genres=${id}&page=${page}&key=${API_KEY}`, {headers: {accept: 'application/json'}});
+
+    const displayGenre = (genre) => {
         if (error) {
             return error.message;
         }
@@ -33,15 +33,7 @@ export default function Home() {
     return (
         <Box className="container is-fluid">
             {/** TODO: pass props for popular games */}
-            <GamesList games={displayGenre()} heroHeader="Popular"/>
-            {/** TODO: pass Action props */}
-            <GamesList games={displayGenre()} heroHeader="Action"/>
-            {/** TODO: pass Sports props */}
-            <GamesList games={displayGenre()} heroHeader="Sports"/>
-            {/** TODO: pass Strategy props */}
-            <GamesList games={displayGenre()} heroHeader="Strategy"/>
-            {/** TODO: pass Role-Playing props */}
-            <GamesList games={displayGenre()} heroHeader="Role-Playing"/>
+            <GamesList games={displayGenre()} heroHeader="Featured Genre"/>
         </Box>
     );
 }
