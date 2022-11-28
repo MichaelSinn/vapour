@@ -2,10 +2,6 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
    width="406"
@@ -51,6 +47,4 @@
      style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" /><path
      d="m 369.62784,39.961188 c 4.21021,0 7.52647,-3.294638 7.52647,-7.771588 0,-4.404863 -3.31626,-7.713912 -7.52647,-7.713912 -4.24627,0 -7.56973,3.30905 -7.56973,7.713912 0,4.47695 3.32346,7.771588 7.56973,7.771588 M 360.19811,32.1896 c 0,-5.334862 4.31835,-9.263912 9.42973,-9.263912 5.06811,0 9.39367,3.929049 9.39367,9.263912 0,5.378113 -4.32556,9.321588 -9.39367,9.321588 -5.11138,0 -9.42973,-3.943476 -9.42973,-9.321588"
      id="path476"
-     style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" /><metadata
-     id="metadata9033"><rdf:RDF><cc:Work
-         rdf:about=""><dc:title></dc:title></cc:Work></rdf:RDF></metadata></svg>
+     style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" /></svg>
