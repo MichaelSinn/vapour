@@ -16,6 +16,7 @@ import GameCard from '../components/GameCard';
  game.name
  game.parent_platforms */
 export default function GamesList({games, heroHeader}) {
+    console.log(games);
     if (games) {
         return (
             <div>

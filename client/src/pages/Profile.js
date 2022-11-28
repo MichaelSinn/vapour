@@ -6,15 +6,17 @@ import {Block, Box} from 'react-bulma-components';
 import {GET_USER} from '../utils/queries';
 import GamesList from '../components/GamesList';
 import WishList from '../components/Wishlist';
-import {useParams} from 'react-router';
+import {Navigate, useParams} from 'react-router';
 
 export default function Profile() {
     const {username} = useParams();
-    console.log(username);
     const {loading, data} = useQuery(GET_USER, {variables: {username: username}});
-    const profileName = data?.user.username;
-    const wishList = data?.user.wishList;
-    const savedGames = data?.user.savedGames;
+    if (!loading && data.user === null){
+        return <Navigate to="/404"/>;
+    }
+    const profileName = data?.user.username || null;
+    const wishList = data?.user.wishList || [];
+    const games = data?.user.savedGames || [];
     console.log(data);
     return (
         <Box>
@@ -22,7 +24,7 @@ export default function Profile() {
                 <Block>
                     <h2>{profileName}'s Profile </h2>
                     <WishList list={wishList}></WishList>
-                    <GamesList games={savedGames}></GamesList>
+                    <GamesList games={games} heroHeader={"Saved Games"}></GamesList>
                 </Block>
             }
         </Box>
