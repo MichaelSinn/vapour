@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bulma/css/bulma.min.css";
 
 import { Button, Dropdown, Form, Navbar } from "react-bulma-components";
@@ -17,13 +17,15 @@ export default function NewNav({ genres, gameCount, userID }) {
     textDecoration: "underline",
   };
 
+  const [toggled, setToggled] = useState(true);
+
   const toggleBurger = () => {
     var burger = document.querySelector(".navbar-burger");
     var nav = document.querySelector(".navbar-menu");
     burger.classList.toggle("is-active");
     nav.classList.toggle("is-active");
+    setToggled(!toggled);
   };
-
   return (
     <Navbar fixed="top">
       <Navbar.Burger onClick={toggleBurger} />
@@ -31,19 +33,36 @@ export default function NewNav({ genres, gameCount, userID }) {
         <Navbar.Item>
           <NavLink to="/">Home</NavLink>
         </Navbar.Item>
-        <Dropdown label="Genres">
-          {genres.map((genre) => {
-            return (
-              <Dropdown.Item
-                renderAs="a"
-                href={`/genres/${genre.id}`}
-                value={genre.name}
-              >
-                {genre.name}
-              </Dropdown.Item>
-            );
-          })}
-        </Dropdown>
+        {/* Displays Genres as a drop or Navbar Item depending on if the burger menu is active */}
+        {(toggled) ? (
+              <Dropdown label="Genres" style={{ display: 'block',}}>
+                {genres.map((genre) => {
+                  return (
+                    <Dropdown.Item
+                      renderAs="a"
+                      href={`/genres/${genre.id}`}
+                      value={genre.name}
+                    >
+                      {genre.name}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown>
+            ) : (
+              <Navbar.Dropdown label="Genres">
+                {genres.map((genre) => {
+                  return (
+                    <Dropdown.Item
+                      renderAs="a"
+                      href={`/genres/${genre.id}`}
+                      value={genre.name}
+                    >
+                      {genre.name}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Navbar.Dropdown>
+            )}
 
         <Form.Input
           // TODO: Query API for inputted game 'name', 'name_original' or 'alternative_names'
