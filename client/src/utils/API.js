@@ -5,7 +5,7 @@ export const searchGames = async (query) => {
 };
 
 export const popularGames = async () => {
-    const response = await fetch(`https://api.rawg.io/api/games?page_size=6&key=${API_KEY}`);
+    const response = await fetch(`https://api.rawg.io/api/games?dates=2022-01-01,2022-12-31&ordering=-added&page_size=6&key=${API_KEY}`);
     return response.json();
 };
 
@@ -13,6 +13,8 @@ export const searchGenre = async (id, page) => {
     const response = await fetch(`https://api.rawg.io/api/games?page_size=6&genres=${id}&page=${page}&key=${API_KEY}`);
     return response.json();
 };
+
+//let query ='';
 
 //genre id's:
 // Action = 4
