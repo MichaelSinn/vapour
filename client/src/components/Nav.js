@@ -1,70 +1,77 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'bulma/css/bulma.min.css';
 
-import {Button, Dropdown, Form, Icon, Navbar,} from 'react-bulma-components';
+import {Navbar} from 'react-bulma-components';
+import {NavLink} from 'react-router-dom';
 
-//TODO: Convert Nav to a Hamburger when in mobile viewport size
-
+import Auth from '../utils/auth';
 // Nav accepts a 'page' state object prop to determine what the active page is
 // Nav expects:
 // genres ; /genres endpoint; genre.id and genre.name
 // gameCount; /games endpoint; "count" should equal 828994
 // userID; ID of logged-in user for viewing Profile page
-export default function Nav({genres, gameCount, userID}) {
+export default function Nav({genres, gameCount}) {
     // Underline the active page
-    let activeStyle = {
-        textDecoration: 'underline',
+    const [toggled, setToggled] = useState(true);
+
+    const toggleBurger = () => {
+        var burger = document.querySelector('.navbar-burger');
+        var nav = document.querySelector('.navbar-menu');
+        burger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+        setToggled(!toggled);
     };
 
     return (
-        <Navbar aria-label="main navigation" brand={<p>Test</p>}>
-            <section>
-                <Navbar.Item
-                    active
-                    to="/"
-                    // style={({isActive}) => (isActive ? activeStyle : undefined)}
-                >
-                    Home
-                </Navbar.Item>
-                <Dropdown hoverable navbar text="Genres">
-                    {genres.map((genre) => {
-                        return (
-                            <Dropdown.Item value={genre.name} navbar to={`/genres/${genre.id}`}>
-                                {genre.name}
-                            </Dropdown.Item>
-                        );
-                    })}
-                </Dropdown>
-            </section>
-            <Form.Input
-                // TODO: Query API for inputted game 'name', 'name_original' or 'alternative_names'
-                iconLeft={<Icon name="search"/>}
-                type="text"
-                placeholder={`Search over ${gameCount} games...`}
-            />
-            <Button>Search</Button>
-            {/* TODO: onClick() query to go the SingleGame page with that game as props (if multiple games match query, just use first)*/}
-            <section>
-                {/* TODO: Only render Profile if user is logged in */}
-                <Navbar.Item
-                    to={`/profile/${userID}`}
-                    // style={({isActive}) => (isActive ? activeStyle : undefined)}
-                >
-                    Profile
-                </Navbar.Item>
-                <Navbar.Item
-                    to="/signup"
-                    // style={({isActive}) => (isActive ? activeStyle : undefined)}
-                >
-                    Sign Up
-                </Navbar.Item>
-                <Navbar.Item
-                    to="/login"
-                    // style={({isActive}) => (isActive ? activeStyle : undefined)}
-                >
-                    Log in
-                </Navbar.Item>
-            </section>
-        </Navbar>
+        <nav className="navbar">
+            <Navbar.Burger onClick={toggleBurger}/>
+            <div className="navbar-menu">
+                <NavLink className="navbar-item" to="/">Home</NavLink>
+                <div className="navbar-item has-dropdown is-hoverable">
+                    <a className="navbar-link">
+                        Genres
+                    </a>
+                    <div className="navbar-dropdown">
+                        {genres.map((genre) => {
+                            return (
+                                <NavLink className="navbar-item" to={`/genres/${genre.id}`}>
+                                    {genre.name}
+                                </NavLink>
+                            );
+                        })}
+                    </div>
+                </div>
+                <input className="input mt-2"
+                    // TODO: Query API for inputted game 'name', 'name_original' or 'alternative_names'
+                    type="text"
+                    placeholder={`Search over ${gameCount} games...`}
+                />
+                <button className="button mt-2" type="submit">Search</button>
+            </div>
+
+            <div className="navbar-end">
+                <div className="navbar-item">
+                    {Auth.loggedIn() ?
+                        <div className="buttons">
+                            <NavLink to={`/profile/${Auth.getProfile().data._id}`} className="button is-primary">
+                                <strong>Profile</strong>
+                            </NavLink>
+                            <NavLink onClick={Auth.logout} className="button is-light">
+                                Log out
+                            </NavLink>
+                        </div>
+                        :
+                        <div className="buttons">
+                            <NavLink to="/signup" className="button is-primary">
+                                <strong>Sign up</strong>
+                            </NavLink>
+                            <NavLink to="/login" className="button is-light">
+                                Log in
+                            </NavLink>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
     );
 }
