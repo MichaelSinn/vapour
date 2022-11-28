@@ -33,7 +33,7 @@ const typeDefs = gql`
     }
     
     input GameInput {
-        gameId: String!
+        gameId: Int!
         backgroundImage: String
         name: String!
         parentPlatforms: [String]

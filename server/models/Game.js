@@ -4,7 +4,7 @@ const {Schema} = mongoose;
 
 const gameSchema = new Schema({
     gameId: {
-        type: Schema.Types.String,
+        type: Schema.Types.Number,
         sparse: true
     },
     backgroundImage: {

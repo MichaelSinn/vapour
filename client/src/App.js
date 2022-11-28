@@ -62,7 +62,7 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/signup" element={<Signup/>}/>
-                    <Route path="/profile/:userId" element={<Profile/>}/>
+                    <Route path="/profile/:username" element={<Profile/>}/>
                     <Route path="/:gameId" element={<SingleGame/>}/>
                     <Route path="/genres/:genreId" element={<Genre/>}/>
                     <Route path="*" element={<NoMatch/>}/>
