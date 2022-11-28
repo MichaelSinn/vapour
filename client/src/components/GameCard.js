@@ -55,7 +55,7 @@ export default function GameCard({game}) {
         break;
     }
     return (
-        <div className="column">
+        <div className="column is-2">
             <Card fluid>
                 {/* API doesn't use the poster images, game.background_image is close enough */}
                 <Card.Image size="4by3" src={game.background_image || game.backgroundImage} alt=""/>
