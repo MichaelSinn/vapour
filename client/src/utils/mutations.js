@@ -14,8 +14,8 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_GAME = gql`
-    mutation Mutation($game: GameInput!) {
-      addToLibrary(game: $game) {
+    mutation Mutation($Game: GameInput!) {
+      addToLibrary(game: $Game) {
         email
         username
         savedGames {
