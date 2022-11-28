@@ -2,7 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 // TODO: Import Icon for platforms when sourced
-import { Image, Button, Tile, Box, Heading, Tag , Level} from "react-bulma-components";
+import {
+  Image,
+  Button,
+  Tile,
+  Box,
+  Heading,
+  Tag,
+  Level,
+} from "react-bulma-components";
 
 // Imported library for screenshot carousel
 import { Carousel } from "react-responsive-carousel";
@@ -27,11 +35,11 @@ game.stores
 game.trailer uses the /{gameID}/movies API endpoint: it may not exist; if so, it may have many; just get the first trailer (results[0])
 */
 export default function GameDetails({ game }) {
-    // Color Metacritic score button based on value
+  // Color Metacritic score button based on value
   var scoreColor = "";
-  switch (game.metacritic) {
+  switch (true) {
     case game.metacritic > 75:
-      scoreColor = "success";
+      scoreColor = "primary";
       break;
     case game.metacritic <= 75 && game.metacritic >= 60:
       scoreColor = "warning";
