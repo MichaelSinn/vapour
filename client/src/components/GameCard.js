@@ -44,9 +44,12 @@ export default function GameCard({game}) {
                     <Button.Group>
                         {game.parent_platforms.map((item) => {
                             // console.log(item);
-                            return (
-                                <Icon renderAs="img" src={platform(item.platform.id)}/>
-                            );
+                            if (platform(item.platform.id)){
+                                return (
+                                    <Icon renderAs="img" src={platform(item.platform.id)}/>
+                                );
+                            }
+                            return null;
                         })}
                     </Button.Group>
                     <Card.Footer>

@@ -10,7 +10,6 @@ export function platform(id){
         2: PSLogo,
         7: NintendoLogo
     };
-    console.log(id);
     return platforms[id];
 }
 
