@@ -46,7 +46,7 @@ export default function GameCard({game}) {
                             // console.log(item);
                             if (platform(item.platform.id)){
                                 return (
-                                    <Icon renderAs="img" src={platform(item.platform.id)}/>
+                                    <Icon className="m-2" renderAs="img" src={platform(item.platform.id)}/>
                                 );
                             }
                             return null;
