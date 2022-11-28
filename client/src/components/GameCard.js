@@ -1,14 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { useMutation } from '@apollo/client';
+import { ADD_GAME } from '../utils/mutations'
+
+import Auth from '../utils/auth'
 
 import 'bulma/css/bulma.min.css';
 // TODO: Import Icon for platforms when sourced
 import {Button, Card, Icon} from 'react-bulma-components';
 import {platform} from '../utils/switch-functions';
+import GamesList from './GamesList';
+import { Link } from 'react-router-dom';
 
-//TODO: Add eventHandling for when 'ADD' or 'VIEW' are clicked
+//TODO: Add eventHandling for when 'ADD'
 
 // GameCard accepts a 'game' object prop and displays the information in a Card component
 export default function GameCard({game}) {
+
+  const [addToLibrary, { error, data }] = useMutation(ADD_GAME)
+
+  const handleGameAddition = async (event) => {
+    event.preventDefault();
+    console.log(game.name)
+    console.log(game.parent_platforms)
+    try {
+      const { data } = await addToLibrary({
+        variables: {
+          Game: {
+              backgroundImage: game.background_image,
+              name: game.name,
+              metacriticRating: game.metacritic,
+              gameId: game.id
+          }
+        }
+      });
+      
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
     var scoreColor = '';
     switch (true) {
     case game.metacritic > 75:
@@ -34,7 +65,7 @@ export default function GameCard({game}) {
                         <Card.Header.Icon>
                             {/* TODO: Color this button based on the value of game.metcritic*/}
                             <Button size="small" color={scoreColor}>
-                                <a href={game.metacritic_url}>{game.metacritic}</a>
+                              {game.metacritic}
                             </Button>
                         </Card.Header.Icon>
                     </Card.Header>
@@ -54,11 +85,15 @@ export default function GameCard({game}) {
                     <Card.Footer>
                         {/* Save game to user collection */}
                         <Card.Footer.Item>
-                            <Button color={'success'}>ADD</Button>
+                          {window.location.pathname == `/profile${Auth.getProfile().data.username}` && Auth.loggedIn() == true &&
+                          <Button color={'success'} onClick={handleGameAddition}>Delete</Button>}
+                            <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
                         </Card.Footer.Item>
                         {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
                         <Card.Footer.Item>
-                            <Button color={'info'}>VIEW</Button>
+                          <Link to={`/${game.id}`}>
+                            <Button color={'info'} type='button' >VIEW</Button>
+                            </Link>
                         </Card.Footer.Item>
                     </Card.Footer>
                 </Card.Content>
