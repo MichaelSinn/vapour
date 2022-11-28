@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations'
+
 import Auth from '../utils/auth'
 
 //Import React BulmaUI components to build page
@@ -36,7 +37,6 @@ const Signup = () => {
             const { data } = await addUser({
                 variables: { ...formState },
               });
-
           Auth.login(data.addUser.token);
         } catch (e) {
             console.error(e);
