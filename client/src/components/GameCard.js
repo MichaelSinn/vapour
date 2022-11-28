@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { useMutation } from '@apollo/client';
+import { ADD_GAME } from '../utils/mutations'
+
+import Auth from '../utils/auth'
 
 import 'bulma/css/bulma.min.css';
 // TODO: Import Icon for platforms when sourced
 import {Button, Card, Icon} from 'react-bulma-components';
 import {platform} from '../utils/switch-functions';
+import GamesList from './GamesList';
 
 //TODO: Add eventHandling for when 'ADD' or 'VIEW' are clicked
 
 // GameCard accepts a 'game' object prop and displays the information in a Card component
 export default function GameCard({game}) {
+
+  const [addGame, setGame] = useState({game})
+
+  const [addToLibrary, { error, data }] = useMutation(ADD_GAME)
+
+  const handleGameAddition = async (event) => {
+    event.preventDefault();
+    console.log(addGame.game.id)
+    console.log(addGame.game.name)
+    try {
+      const { data } = await addToLibrary({
+        variables: {
+              // backgroundImage: game.background_image,
+              // name: addGame.game.name,
+              // parentPlatforms: game.parent_platforms.platform,
+              // metacriticUrl: game.metacritic_url,
+              // metacriticRating: game.metacritic,
+              // released: game.released,
+              // genres: game.genres.id,
+              // esrbRating: game.esrb_rating,
+              // screenshots: game.short_screenshots,
+              // redditUrl: game.reddit_url,
+              // redditName: game.reddit_name,
+              // description: game.description,
+              // stores: game.stores,
+              // gameId: addGame.game.id
+        }
+      })
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
     var scoreColor = '';
     switch (true) {
     case game.metacritic > 75:
@@ -55,7 +95,7 @@ export default function GameCard({game}) {
                     <Card.Footer>
                         {/* Save game to user collection */}
                         <Card.Footer.Item>
-                            <Button color={'success'}>ADD</Button>
+                            <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
                         </Card.Footer.Item>
                         {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
                         <Card.Footer.Item>
