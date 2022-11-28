@@ -53,7 +53,7 @@ export default function Nav({genres, gameCount}) {
                 <div className="navbar-item">
                     {Auth.loggedIn() ?
                         <div className="buttons">
-                            <NavLink to={`/profile/${Auth.getProfile().data._id}`} className="button is-primary">
+                            <NavLink to={`/profile/${Auth.getProfile().data.username}`} className="button is-primary">
                                 <strong>Profile</strong>
                             </NavLink>
                             <NavLink onClick={Auth.logout} className="button is-light">

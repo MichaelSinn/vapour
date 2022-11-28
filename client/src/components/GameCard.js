@@ -34,7 +34,7 @@ export default function GameCard({game}) {
           }
         }
       });
-      
+
     } catch (e) {
       console.error(e);
     }
@@ -42,13 +42,13 @@ export default function GameCard({game}) {
 
     var scoreColor = '';
     switch (true) {
-    case game.metacritic > 75:
+    case game.metacritic > 75 || game.metacriticRating > 75:
         scoreColor = 'primary';
         break;
-    case game.metacritic <= 75 && game.metacritic >= 60:
+    case (game.metacritic <= 75 && game.metacritic >= 60)  || (game.metacriticRating <= 75 && game.metacriticRating >= 60) :
         scoreColor = 'warning';
         break;
-    case game.metacritic < 60:
+    case game.metacritic < 60 || game.metacriticRating < 60:
         scoreColor = 'danger';
         break;
     default:
@@ -58,14 +58,14 @@ export default function GameCard({game}) {
         <div className="column">
             <Card fluid>
                 {/* API doesn't use the poster images, game.background_image is close enough */}
-                <Card.Image size="4by3" src={game.background_image} alt=""/>
+                <Card.Image size="4by3" src={game.background_image || game.backgroundImage} alt=""/>
                 <Card.Content>
                     <Card.Header>
                         <Card.Header.Title>{game.name}</Card.Header.Title>
                         <Card.Header.Icon>
                             {/* TODO: Color this button based on the value of game.metcritic*/}
                             <Button size="small" color={scoreColor}>
-                              {game.metacritic}
+                              {game.metacritic || game.metacriticRating}
                             </Button>
                         </Card.Header.Icon>
                     </Card.Header>
@@ -73,14 +73,14 @@ export default function GameCard({game}) {
         ex: 'Xbox', 'Playstation', 'Nintendo', 'PC' etc
         TODO: Convert these Buttons to their Icons instead if possible */}
                     <Button.Group>
-                        {game.parent_platforms.map((item) => {
+                        {game.parent_platforms ? game.parent_platforms.map((item) => {
                             if (platform(item.platform.id)){
                                 return (
                                     <Icon className="m-2" renderAs="img" src={platform(item.platform.id)}/>
                                 );
                             }
                             return null;
-                        })}
+                        }): null}
                     </Button.Group>
                     <Card.Footer>
                         {/* Save game to user collection */}
