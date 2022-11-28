@@ -10,11 +10,21 @@ import {
   Heading,
   Tag,
   Level,
+  Icon,
 } from "react-bulma-components";
 
 // Imported library for screenshot carousel
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+import { useFetch } from "react-async";
+
+import { useParams } from "react-router";
+import { platform, store } from "../utils/switch-functions";
+
+import Auth from "../utils/auth";
+import GamesList from "./GamesList";
+
 
 /* GameDetails accepts a 'game' object prop and displays the information in a Box component
 GameDetails expects:
@@ -31,10 +41,22 @@ game.reddit_url
 game.reddit_name
 game.description_raw
 game.stores
-
-game.trailer uses the /{gameID}/movies API endpoint: it may not exist; if so, it may have many; just get the first trailer (results[0])
 */
+
 export default function GameDetails({ game }) {
+  const { gameId } = useParams();
+  const API_KEY = process.env.REACT_APP_API_KEY;
+
+  const { data, error } = useFetch(
+    `https://api.rawg.io/api/games/${gameId}/screenshots?key=${API_KEY}`,
+    { headers: { accept: "application/json" } }
+  );
+
+  console.log(data?.results);
+
+  console.log(game);
+
+  if (!game) return null; // Stop app from crashing while API info is still getting populated
   // Color Metacritic score button based on value
   var scoreColor = "";
   switch (true) {
@@ -55,33 +77,38 @@ export default function GameDetails({ game }) {
     <Box>
       <Tile kind="ancestor">
         <Tile kind="parent" vertical>
-          {/* TODO: Set max width for image */}
-          <Tile kind="child" renderAs={Image} src={game.background_image} />
+          <Tile
+            kind="child"
+            renderAs={Image}
+            src={game.background_image}
+            size="16by9"
+          />
         </Tile>
         <Tile size={8} vertical>
           <Tile kind="child">
             <Tile kind="parent">
-              <Tile kind="child" narrow={true}>
+              <Tile kind="child">
                 <Heading>{game.name}</Heading>
               </Tile>
               <Tile kind="child">
-                {/* Parent_platform.platform.name returns top-level platform
-               ex: 'Xbox', 'Playstation', 'Nintendo', 'PC' etc
-               TODO: Convert these Buttons to their Icons instead if possible */}
-                <Tag.Group>
-                  {game.parent_platforms.map((platform, index) => {
-                    return (
-                      <Tag size="small" key={index}>
-                        {platform.name}
-                      </Tag>
-                    );
+                <Button.Group>
+                  {game.parent_platforms.map((item) => {
+                    if (platform(item.platform.id)) {
+                      return (
+                        <Icon
+                          className="m-2"
+                          renderAs="img"
+                          src={platform(item.platform.id)}
+                        />
+                      );
+                    }
+                    return null;
                   })}
-                </Tag.Group>
+                </Button.Group>
               </Tile>
               <Tile size={1}>
                 <a href={game.metacritic_url}>
                   <Button size="large" color={scoreColor} outlined={false}>
-                    {/* TODO: Color this button based on the value of game.metcritic */}
                     {game.metacritic}
                   </Button>
                 </a>
@@ -114,45 +141,64 @@ export default function GameDetails({ game }) {
               </Tile>
 
               <Tile kind="child">
-                {/* TODO: Implement: render each screenshot in a nice image carousel instead */}
-                {/* {game.short_screenshots.map((screenshot) => {
-                                    return ;
-                                })} */}
-                <Carousel showThumbs={false}>
-                  {game.short_screenshots.map((image) => (
-                    <div>
-                      <img src={image.url} />
-                    </div>
-                  ))}
-                </Carousel>
+                {data?.results ? (
+                  <Carousel showThumbs={false}>
+                    {data?.results.map((scrn, index) => (
+                      <div>
+                        <img src={scrn.image} key={index} alt="" />
+                      </div>
+                    ))}
+                  </Carousel>
+                ) : null}
               </Tile>
-              <Level>
-                <Tile kind="child">
-                  <Button to={game.reddit_url}>{game.reddit_name}</Button>
-                </Tile>
-                <Tile kind="child">
-                  <Button renderAs={Link} to={game.trailerlink}>
-                    {/* TODO: Ensure we can get trailer link from API */}
-                    WATCH
-                  </Button>
-                </Tile>
-              </Level>
+              <Tile kind="child">
+                <a href={game.reddit_url}>
+                  <Button>{game.reddit_name}</Button>
+                </a>
+              </Tile>
             </Tile>
             <Tile kind="parent">
               <Tile kind="child">
                 <Tile kind="child">{game.description_raw}</Tile>
                 <Tile kind="child">
-                  {game.stores.map((store, index) => {
-                    return (
-                      <Button to={store.domain} key={index}>
-                        {store.name}
-                      </Button>
-                    );
+                  {game.stores.map((item) => {
+                    if (store(item.store.id)) {
+                      return (
+                        <a href={`https://${item.store.domain}`}>
+                          <Button
+                            className="m-2"
+                            //renderAs="img"
+                            src={store(item.store.id)}
+                          >
+                            <br />
+                            <Icon
+                              //renderAs="img"
+                              src={`../assets/${item.store.slug}.svg`}
+                            />
+                            {console.log(item.store.slug+".svg")}
+                            {item.store.name}
+                          </Button>
+                        </a>
+                      );
+                    }
+                    return null;
                   })}
                 </Tile>
                 <Tile kind="child">
-                  {/* TODO: use state to determine what is button should say/do */}
-                  <Button>VIEW/ADD</Button>
+                  {Auth.loggedIn() ? (
+                    <Button.Group>
+                      <Button fullwidth colorVariant={"success"}>
+                        ADD
+                      </Button>
+                      <Button fullwidth colorVariant={"info"}>
+                        WISHLIST
+                      </Button>
+                    </Button.Group>
+                  ) : (
+                    <Button fullwidth disabled colorVariant={"light"}>
+                      Login or Sign up to add game
+                    </Button>
+                  )}
                 </Tile>
               </Tile>
             </Tile>
