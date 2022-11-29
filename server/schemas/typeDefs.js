@@ -60,7 +60,7 @@ const typeDefs = gql`
         addToLibrary(game: GameInput!): User
         removeFromLibrary(gameId: Int!): User
         addToWishlist(game: GameInput!): User
-        removeFromWishlist(gameId: String!): User
+        removeFromWishlist(gameId: Int!): User
     }
 `;
 

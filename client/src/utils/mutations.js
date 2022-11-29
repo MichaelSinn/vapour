@@ -38,8 +38,8 @@ export const REMOVE_GAME = gql`
 `;
 
 export const ADD_WISH = gql`
-    mutation addToWishlist($game: GameInput!) {
-      addToWishlist(game: $game) {
+    mutation addToWishlist($Game: GameInput!) {
+      addToWishlist(game: $Game) {
         email
         username
         wishList {
@@ -50,7 +50,7 @@ export const ADD_WISH = gql`
 `;
 
 export const REMOVE_WISH = gql`
-    mutation removeFromWishlist($gameId: String!) {
+    mutation removeFromWishlist($gameId: Int!) {
       removeFromWishlist(gameId: $gameId) {
         email
         username
