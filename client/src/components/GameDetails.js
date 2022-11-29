@@ -13,6 +13,7 @@ import {
   Icon,
 } from "react-bulma-components";
 
+import { useMutation } from '@apollo/client';
 // Imported library for screenshot carousel
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -24,6 +25,10 @@ import { platform, store } from "../utils/switch-functions";
 
 import Auth from "../utils/auth";
 import GamesList from "./GamesList";
+
+
+import { ADD_GAME, ADD_WISH } from '../utils/mutations'
+
 
 /* GameDetails accepts a 'game' object prop and displays the information in a Box component
 GameDetails expects:
@@ -43,6 +48,47 @@ game.stores
 */
 
 export default function GameDetails({ game }) {
+  const [addToLibrary] = useMutation(ADD_GAME)
+  const [addToWishlist] = useMutation(ADD_WISH)
+
+  const handleGameAddition = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await addToLibrary({
+        variables: {
+          Game: {
+              backgroundImage: game.background_image,
+              name: game.name,
+              metacriticRating: game.metacritic,
+              gameId: game.id
+          }
+        }
+      });
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const handleWishAddition = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await addToWishlist({
+        variables: {
+          Game: {
+              backgroundImage: game.background_image,
+              name: game.name,
+              metacriticRating: game.metacritic,
+              gameId: game.id
+          }
+        }
+      });
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const { gameId } = useParams();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -132,7 +178,7 @@ export default function GameDetails({ game }) {
                 </Tile>
                 <Tile kind="child" size={3}>
                   <Tag size="small">Rated:</Tag>
-                  <Tag size="small">{game.esrb_rating.name}</Tag>
+                  {/* <Tag size="small">{game.esrb_rating.name}</Tag> */}
                 </Tile>
               </Tile>
 
@@ -177,10 +223,10 @@ export default function GameDetails({ game }) {
                 <Tile kind="child">
                   {Auth.loggedIn() ? (
                     <Button.Group>
-                      <Button fullwidth colorVariant={"success"}>
+                      <Button fullwidth colorVariant={"success"} onClick={handleGameAddition}> 
                         ADD
                       </Button>
-                      <Button fullwidth colorVariant={"info"}>
+                      <Button fullwidth colorVariant={"info"} onClick={handleWishAddition}>
                         WISHLIST
                       </Button>
                     </Button.Group>

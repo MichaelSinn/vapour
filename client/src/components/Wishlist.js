@@ -1,26 +1,33 @@
 import React from 'react';
 
+//Import React BulmaUI components to build page
 import 'bulma/css/bulma.min.css';
-import { Card, Columns } from 'react-bulma-components';
 
-export default function WishList({list}) {
-    if (list){
+//Components needed
+import WishListCard from './WishListCard';
+
+/* GamesList accepts 'games' as a prop to display a list of GameCard components
+ for each 'game' passed
+
+ GameCard expects these properties to be present in each 'game':
+ game.background_image
+ game.metacritic_url
+ game.metacritic
+ game.name
+ game.parent_platforms */
+export default function WishList({games, heroHeader}) {
+    console.log(games);
+    if (games) {
         return (
-            <Columns gap={1}>
-                <Columns.Column size = {2}>
-                    <Card>
-                        <Card.Header>
-                            Wishlist
-                        </Card.Header>
-                        <Card.Content>
-                            {list.map((game) => {
-                                return <li>{game}</li>
-                            })}
-                        </Card.Content>
-                    </Card>
-                </Columns.Column>
-            </Columns>
-        )
+            <div>
+                <h3 className="subtitle">{heroHeader}</h3>
+                <div className="columns is-multiline">
+                    {games.map((game) => {
+                        return <WishListCard game={game}/>;
+                    })}
+                </div>
+            </div>
+        );
     }
     return null;
 }
