@@ -13,6 +13,7 @@ import {
   Icon,
 } from "react-bulma-components";
 
+import { useMutation } from '@apollo/client';
 // Imported library for screenshot carousel
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -24,6 +25,9 @@ import { platform, store } from "../utils/switch-functions";
 
 import Auth from "../utils/auth";
 import GamesList from "./GamesList";
+
+
+import { ADD_GAME, ADD_WISH } from '../utils/mutations'
 
 
 /* GameDetails accepts a 'game' object prop and displays the information in a Box component
@@ -44,17 +48,55 @@ game.stores
 */
 
 export default function GameDetails({ game }) {
+  const [addToLibrary] = useMutation(ADD_GAME)
+  const [addToWishlist] = useMutation(ADD_WISH)
+
+  const handleGameAddition = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await addToLibrary({
+        variables: {
+          Game: {
+              backgroundImage: game.background_image,
+              name: game.name,
+              metacriticRating: game.metacritic,
+              gameId: game.id
+          }
+        }
+      });
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const handleWishAddition = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await addToWishlist({
+        variables: {
+          Game: {
+              backgroundImage: game.background_image,
+              name: game.name,
+              metacriticRating: game.metacritic,
+              gameId: game.id
+          }
+        }
+      });
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const { gameId } = useParams();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
+  // Fetch request for screenshots
   const { data, error } = useFetch(
     `https://api.rawg.io/api/games/${gameId}/screenshots?key=${API_KEY}`,
     { headers: { accept: "application/json" } }
   );
-
-  console.log(data?.results);
-
-  console.log(game);
 
   if (!game) return null; // Stop app from crashing while API info is still getting populated
   // Color Metacritic score button based on value
@@ -151,11 +193,15 @@ export default function GameDetails({ game }) {
                   </Carousel>
                 ) : null}
               </Tile>
-              <Tile kind="child">
+              {game.reddit_url ? 
+              (<Tile kind="child">
+                
                 <a href={game.reddit_url}>
                   <Button>{game.reddit_name}</Button>
                 </a>
-              </Tile>
+                
+              </Tile>) : null
+              }
             </Tile>
             <Tile kind="parent">
               <Tile kind="child">
@@ -165,17 +211,7 @@ export default function GameDetails({ game }) {
                     if (store(item.store.id)) {
                       return (
                         <a href={`https://${item.store.domain}`}>
-                          <Button
-                            className="m-2"
-                            //renderAs="img"
-                            src={store(item.store.id)}
-                          >
-                            <br />
-                            {/* <Icon
-                              //renderAs="img" ${item.store.slug}
-                              src={`../assets/xbox-store.svg`}
-                            /> */}
-                            {/* console.log(item.store.slug+".svg")*/}
+                          <Button src={store(item.store.id)}>
                             {item.store.name}
                           </Button>
                         </a>
@@ -187,10 +223,10 @@ export default function GameDetails({ game }) {
                 <Tile kind="child">
                   {Auth.loggedIn() ? (
                     <Button.Group>
-                      <Button fullwidth colorVariant={"success"}>
+                      <Button fullwidth colorVariant={"success"} onClick={handleGameAddition}> 
                         ADD
                       </Button>
-                      <Button fullwidth colorVariant={"info"}>
+                      <Button fullwidth colorVariant={"info"} onClick={handleWishAddition}>
                         WISHLIST
                       </Button>
                     </Button.Group>

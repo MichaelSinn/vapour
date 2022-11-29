@@ -3,7 +3,7 @@ const {gql} = require('apollo-server-express');
 const typeDefs = gql`
     type Game {
         _id: ID
-        gameId: String!
+        gameId: Int!
         backgroundImage: String
         name: String!
         parentPlatforms: [String]
@@ -58,9 +58,9 @@ const typeDefs = gql`
     type Mutation {
         addUser(username: String!, email: String!, password: String!): Auth
         addToLibrary(game: GameInput!): User
-        removeFromLibrary(gameId: String!): User
+        removeFromLibrary(gameId: Int!): User
         addToWishlist(game: GameInput!): User
-        removeFromWishlist(gameId: String!): User
+        removeFromWishlist(gameId: Int!): User
     }
 `;
 
