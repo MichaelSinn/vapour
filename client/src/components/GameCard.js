@@ -1,51 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { useMutation } from '@apollo/client';
-import { ADD_GAME } from '../utils/mutations'
+import {useMutation} from '@apollo/client';
+import {ADD_GAME} from '../utils/mutations';
 
-import Auth from '../utils/auth'
+import Auth from '../utils/auth';
 
 import 'bulma/css/bulma.min.css';
 // TODO: Import Icon for platforms when sourced
 import {Button, Card, Icon} from 'react-bulma-components';
 import {platform} from '../utils/switch-functions';
-import GamesList from './GamesList';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 //TODO: Add eventHandling for when 'ADD'
 
 // GameCard accepts a 'game' object prop and displays the information in a Card component
 export default function GameCard({game}) {
 
-  const [addToLibrary, { error, data }] = useMutation(ADD_GAME)
+    const [addToLibrary, {error, data}] = useMutation(ADD_GAME);
 
-  const handleGameAddition = async (event) => {
-    event.preventDefault();
-    console.log(game.name)
-    console.log(game.parent_platforms)
-    try {
-      const { data } = await addToLibrary({
-        variables: {
-          Game: {
-              backgroundImage: game.background_image,
-              name: game.name,
-              metacriticRating: game.metacritic,
-              gameId: game.id
-          }
+    const handleGameAddition = async (event) => {
+        event.preventDefault();
+        console.log(game.name);
+        console.log(game.parent_platforms);
+        try {
+            const {data} = await addToLibrary({
+                variables: {
+                    Game: {
+                        backgroundImage: game.background_image,
+                        name: game.name,
+                        metacriticRating: game.metacritic,
+                        gameId: game.id
+                    }
+                }
+            });
+
+        } catch (e) {
+            console.error(e);
         }
-      });
-
-    } catch (e) {
-      console.error(e);
-    }
-  }
+    };
 
     var scoreColor = '';
     switch (true) {
     case game.metacritic > 75 || game.metacriticRating > 75:
         scoreColor = 'primary';
         break;
-    case (game.metacritic <= 75 && game.metacritic >= 60)  || (game.metacriticRating <= 75 && game.metacriticRating >= 60) :
+    case (game.metacritic <= 75 && game.metacritic >= 60) || (game.metacriticRating <= 75 && game.metacriticRating >= 60) :
         scoreColor = 'warning';
         break;
     case game.metacritic < 60 || game.metacriticRating < 60:
@@ -54,6 +53,7 @@ export default function GameCard({game}) {
     default:
         break;
     }
+
     return (
         <div className="column is-2">
             <Card fluid>
@@ -65,7 +65,7 @@ export default function GameCard({game}) {
                         <Card.Header.Icon>
                             {/* TODO: Color this button based on the value of game.metcritic*/}
                             <Button size="small" color={scoreColor}>
-                              {game.metacritic || game.metacriticRating}
+                                {game.metacritic || game.metacriticRating}
                             </Button>
                         </Card.Header.Icon>
                     </Card.Header>
@@ -74,25 +74,25 @@ export default function GameCard({game}) {
         TODO: Convert these Buttons to their Icons instead if possible */}
                     <Button.Group>
                         {game.parent_platforms ? game.parent_platforms.map((item) => {
-                            if (platform(item.platform.id)){
+                            if (platform(item.platform.id)) {
                                 return (
                                     <Icon className="m-2" renderAs="img" src={platform(item.platform.id)}/>
                                 );
                             }
                             return null;
-                        }): null}
+                        }) : null}
                     </Button.Group>
                     <Card.Footer>
                         {/* Save game to user collection */}
                         <Card.Footer.Item>
-                          {window.location.pathname == `/profile${Auth.getProfile().data.username}` && Auth.loggedIn() == true &&
-                          <Button color={'success'} onClick={handleGameAddition}>Delete</Button>}
-                            <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
+                            {window.location.pathname === `/profile/${Auth.getProfile().data.username}` && Auth.loggedIn() ?
+                                <Button color={'danger'} onClick={handleGameAddition}>Delete</Button> :
+                                <Button color={'success'} onClick={handleGameAddition}>ADD</Button>}
                         </Card.Footer.Item>
                         {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
                         <Card.Footer.Item>
-                          <Link to={`/${game.id}`}>
-                            <Button color={'info'} type='button' >VIEW</Button>
+                            <Link to={`/${game.id}`}>
+                                <Button color={'info'} type="button">VIEW</Button>
                             </Link>
                         </Card.Footer.Item>
                     </Card.Footer>
