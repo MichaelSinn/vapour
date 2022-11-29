@@ -29,7 +29,9 @@ export default function GamesList({games, heroHeader}) {
                             <h3 className="subtitle">{heroHeader}</h3>
                             <div className="columns is-multiline">
                                 {games.map((game) => {
-                                    if (!data?.me.savedGames.includes(game)) return <GameCard game={game}/>;
+                                    if (!data?.me.savedGames.includes(game)) {
+                                        return <GameCard game={game}/>;
+                                    }
                                     return null;
                                 })}
                             </div>
