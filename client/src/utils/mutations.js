@@ -26,7 +26,7 @@ export const ADD_GAME = gql`
 `;
 
 export const REMOVE_GAME = gql`
-    mutation RemoveFromLibrary($gameId: INT!) {
+    mutation RemoveFromLibrary($gameId: Int!) {
       removeFromLibrary(gameId: $gameId) {
         email
         username

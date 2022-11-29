@@ -19,18 +19,7 @@ import { GET_ME } from '../utils/queries';
 export default function GameCard({game}) {
 
   const [addToLibrary, { error }] = useMutation(ADD_GAME)
-  const [removeFromLibrary] = useMutation(REMOVE_GAME, {
-    update(cache, { data: { removeFromLibrary } }) {
-      try {
-        cache.writeQuery({
-          query: GET_ME,
-          data: { me: removeFromLibrary },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  })
+  const [removeFromLibrary] = useMutation(REMOVE_GAME)
 
   const handleGameAddition = async (event) => {
     event.preventDefault();
@@ -51,11 +40,12 @@ export default function GameCard({game}) {
     }
   }
 
-  const handleGameDeletion = async (game) => {
+  const handleGameDeletion = async (event) => {
     try {
+      console.log(game)
       const { data } = await removeFromLibrary({
         variables: {
-          gameId: game.id
+          gameId: game.gameId
         }
       })
     }catch (e) {
