@@ -26,6 +26,7 @@ import { platform, store } from "../utils/switch-functions";
 import Auth from "../utils/auth";
 import GamesList from "./GamesList";
 
+
 import { ADD_GAME, ADD_WISH } from '../utils/mutations'
 
 
@@ -91,14 +92,11 @@ export default function GameDetails({ game }) {
   const { gameId } = useParams();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
+  // Fetch request for screenshots
   const { data, error } = useFetch(
     `https://api.rawg.io/api/games/${gameId}/screenshots?key=${API_KEY}`,
     { headers: { accept: "application/json" } }
   );
-
-  console.log(data?.results);
-
-  console.log(game);
 
   if (!game) return null; // Stop app from crashing while API info is still getting populated
   // Color Metacritic score button based on value
@@ -195,11 +193,15 @@ export default function GameDetails({ game }) {
                   </Carousel>
                 ) : null}
               </Tile>
-              <Tile kind="child">
+              {game.reddit_url ? 
+              (<Tile kind="child">
+                
                 <a href={game.reddit_url}>
                   <Button>{game.reddit_name}</Button>
                 </a>
-              </Tile>
+                
+              </Tile>) : null
+              }
             </Tile>
             <Tile kind="parent">
               <Tile kind="child">
@@ -209,17 +211,7 @@ export default function GameDetails({ game }) {
                     if (store(item.store.id)) {
                       return (
                         <a href={`https://${item.store.domain}`}>
-                          <Button
-                            className="m-2"
-                            //renderAs="img"
-                            src={store(item.store.id)}
-                          >
-                            <br />
-                            {/* <Icon
-                              //renderAs="img" ${item.store.slug}
-                              src={`../assets/xbox-store.svg`}
-                            /> */}
-                            {/* console.log(item.store.slug+".svg")*/}
+                          <Button src={store(item.store.id)}>
                             {item.store.name}
                           </Button>
                         </a>
