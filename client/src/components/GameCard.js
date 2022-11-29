@@ -102,7 +102,7 @@ export default function GameCard({game}) {
                         </Card.Footer.Item>
                         {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
                         <Card.Footer.Item>
-                            <Link to={`/${game.id}`}>
+                            <Link to={`/${game.id || game.gameId}`}>
                                 <Button color={'info'} type="button">VIEW</Button>
                             </Link>
                         </Card.Footer.Item>
