@@ -13,10 +13,8 @@ const resolvers = {
             }
             throw new AuthenticationError(notLoggedIn);
         },
-        user: async (parent, args, context) => {
-            if (context.user) {
-                return User.findOne({where: {username: args.username}});
-            }
+        user: async (parent, args) => {
+            return User.findOne({username: args.username});
         },
         login: async (parent, {username, password}) => {
             const user = await User.findOne({username});
