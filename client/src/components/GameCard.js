@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { useMutation } from '@apollo/client';
-import { ADD_GAME } from '../utils/mutations'
+import { useMutation, useQuery } from '@apollo/client';
+import { ADD_GAME, REMOVE_GAME } from '../utils/mutations'
 
 import Auth from '../utils/auth'
 
@@ -11,18 +11,18 @@ import {Button, Card, Icon} from 'react-bulma-components';
 import {platform} from '../utils/switch-functions';
 import GamesList from './GamesList';
 import { Link } from 'react-router-dom';
+import { GET_ME } from '../utils/queries';
 
 //TODO: Add eventHandling for when 'ADD'
 
 // GameCard accepts a 'game' object prop and displays the information in a Card component
 export default function GameCard({game}) {
 
-  const [addToLibrary, { error, data }] = useMutation(ADD_GAME)
+  const [addToLibrary, { error }] = useMutation(ADD_GAME)
+  const [removeFromLibrary] = useMutation(REMOVE_GAME)
 
   const handleGameAddition = async (event) => {
     event.preventDefault();
-    console.log(game.name)
-    console.log(game.parent_platforms)
     try {
       const { data } = await addToLibrary({
         variables: {
@@ -39,6 +39,19 @@ export default function GameCard({game}) {
       console.error(e);
     }
   }
+
+  const handleGameDeletion = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await removeFromLibrary({
+        variables: {
+          gameId: game.id
+        }
+      })
+    }catch (e) {
+      console.error(e);
+  }
+}
 
     var scoreColor = '';
     switch (true) {
@@ -85,9 +98,8 @@ export default function GameCard({game}) {
                     <Card.Footer>
                         {/* Save game to user collection */}
                         <Card.Footer.Item>
-                          {window.location.pathname == `/profile${Auth.getProfile().data.username}` && Auth.loggedIn() == true &&
-                          <Button color={'success'} onClick={handleGameAddition}>Delete</Button>}
-                            <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
+                          <Button color={'danger'} onClick={handleGameDeletion}>Delete</Button>
+                          <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
                         </Card.Footer.Item>
                         {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
                         <Card.Footer.Item>
@@ -101,3 +113,4 @@ export default function GameCard({game}) {
         </div>
     );
 }
+
