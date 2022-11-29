@@ -33,7 +33,6 @@ export default function SingleGame() {
     `https://api.rawg.io/api/games/${gameId}?page_size=1&page=1&key=${API_KEY}`,
     { headers: { accept: "application/json" } }
   );
-  console.log(data);
 
   return (
     <Box>

@@ -16,7 +16,6 @@ export default function Search() {
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   const { gameName } = useParams();
-  console.log("search gameNames " + gameName);
 
   const { data, error } = useFetch(
     `https://api.rawg.io/api/games?search=${gameName}&page_size=6&exclude_stores=4,5,7,8,9,10&key=${API_KEY}`,

@@ -19,7 +19,6 @@ import {GET_ME} from '../utils/queries';
  game.parent_platforms */
 export default function GamesList({games, heroHeader}) {
     const {loading, data} = useQuery(GET_ME);
-    console.log(data);
     if (games) {
         return (
             <div>
