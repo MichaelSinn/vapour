@@ -102,8 +102,7 @@ export default function Nav({genres, gameCount}) {
                         </div>
                     )}
                 </div>
-            </div>
-
+            </div>*
         </nav>
     );
 }

@@ -31,7 +31,6 @@ export default function GameCard({game}) {
                     }
                 }
             });
-
         } catch (e) {
             console.error(e);
         }
@@ -95,7 +94,7 @@ export default function GameCard({game}) {
                     <Card.Footer>
                         {/* Save game to user collection */}
                         <Card.Footer.Item>
-                            {window.location.pathname === `/profile/${Auth.getProfile().data.username}` && Auth.loggedIn() === true ?
+                            {(window.location.pathname === `/profile/${Auth.getProfile().data.username}` && Auth.loggedIn() === true) ?
                                 <Button color={'danger'} onClick={handleGameDeletion}>Delete</Button> :
                                 <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
                             }

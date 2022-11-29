@@ -29,7 +29,7 @@ export default function Genre() {
     const {
         data,
         error
-    } = useFetch(`https://api.rawg.io/api/games?page_size=6&genres=${genreId}&page=1&key=${API_KEY}`, {headers: {accept: 'application/json'}});
+    } = useFetch(`https://api.rawg.io/api/games?page_size=18&genres=${genreId}&page=1&key=${API_KEY}`, {headers: {accept: 'application/json'}});
 
     const displayGenre = () => {
         if (error) {
