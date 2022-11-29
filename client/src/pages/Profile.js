@@ -5,7 +5,7 @@ import 'bulma/css/bulma.min.css';
 import {Block, Box} from 'react-bulma-components';
 import {GET_USER} from '../utils/queries';
 import GamesList from '../components/GamesList';
-import WishList from '../components/WishList';
+import WishList from '../components/Wishlist';
 import {Navigate, useParams} from 'react-router';
 
 export default function Profile() {
@@ -18,7 +18,7 @@ export default function Profile() {
     const wishList = data?.user.wishList || [];
     console.log(wishList);
     const games = data?.user.savedGames || [];
-    
+
     return (
         <Box>
             {loading ? <div>Loading...</div> :
@@ -26,7 +26,7 @@ export default function Profile() {
                     <h1>{profileName}'s Profile </h1>
                     { wishList.length !== 0 ? <WishList games={wishList} heroHeader={"Wishlist"}></WishList> :
                     null}
-                    
+
                     <GamesList games={games} heroHeader={"Saved Games"}></GamesList>
                 </Block>
             }
