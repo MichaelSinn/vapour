@@ -176,10 +176,10 @@ export default function GameDetails({ game }) {
                     })}
                   </Tag.Group>
                 </Tile>
-                <Tile kind="child" size={3}>
+                {/* <Tile kind="child" size={3}>
                   <Tag size="small">Rated:</Tag>
                   <Tag size="small">{game.esrb_rating.name}</Tag>
-                </Tile>
+                </Tile> */}
               </Tile>
 
               <Tile kind="child">
