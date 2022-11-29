@@ -16,6 +16,7 @@ export default function Profile() {
     }
     const profileName = data?.user.username || null;
     const wishList = data?.user.wishList || [];
+    console.log(wishList);
     const games = data?.user.savedGames || [];
     console.log(data);
     return (
