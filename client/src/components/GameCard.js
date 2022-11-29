@@ -13,13 +13,24 @@ import GamesList from './GamesList';
 import { Link } from 'react-router-dom';
 import { GET_ME } from '../utils/queries';
 
-//TODO: Add eventHandling for when 'ADD'
+//TODO: Add eventHandling for 'DELETE'
 
 // GameCard accepts a 'game' object prop and displays the information in a Card component
 export default function GameCard({game}) {
 
   const [addToLibrary, { error }] = useMutation(ADD_GAME)
-  const [removeFromLibrary] = useMutation(REMOVE_GAME)
+  const [removeFromLibrary] = useMutation(REMOVE_GAME, {
+    update(cache, { data: { removeFromLibrary } }) {
+      try {
+        cache.writeQuery({
+          query: GET_ME,
+          data: { me: removeFromLibrary },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  })
 
   const handleGameAddition = async (event) => {
     event.preventDefault();
@@ -40,8 +51,7 @@ export default function GameCard({game}) {
     }
   }
 
-  const handleGameDeletion = async (event) => {
-    event.preventDefault();
+  const handleGameDeletion = async (game) => {
     try {
       const { data } = await removeFromLibrary({
         variables: {
