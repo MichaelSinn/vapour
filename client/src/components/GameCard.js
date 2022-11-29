@@ -38,7 +38,6 @@ export default function GameCard({game}) {
 
     const handleGameDeletion = async (event) => {
         try {
-            console.log(game.gameId);
             const {data} = await removeFromLibrary({
                 variables: {
                     gameId: game.gameId

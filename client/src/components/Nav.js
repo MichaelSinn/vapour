@@ -31,6 +31,7 @@ export default function Nav({ genres, gameCount }) {
     setSearchState(event.target.value);
   };
 
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     <Navigate to={`/search/${searchState}`} />;
