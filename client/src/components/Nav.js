@@ -96,7 +96,6 @@ export default function Nav({ genres, gameCount }) {
           )}
         </div>
       </div>
-      *
     </nav>
   );
 }
