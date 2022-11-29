@@ -85,8 +85,8 @@ export default function GameCard({game}) {
                     <Card.Footer>
                         {/* Save game to user collection */}
                         <Card.Footer.Item>
-                          {window.location.pathname == `/profile${Auth.getProfile().data.username}` && Auth.loggedIn() == true &&
-                          <Button color={'success'} onClick={handleGameAddition}>Delete</Button>}
+                          {/* {window.location.pathname == `/profile${Auth.getProfile().data.username}` && Auth.loggedIn() == true &&
+                          <Button color={'success'} onClick={handleGameAddition}>Delete</Button>} */}
                             <Button color={'success'} onClick={handleGameAddition}>ADD</Button>
                         </Card.Footer.Item>
                         {/* Go to this games' SingleGame.js page and view its GameDetails.js */}
