@@ -16,7 +16,6 @@ import WishListCard from './WishListCard';
  game.name
  game.parent_platforms */
 export default function WishList({games, heroHeader}) {
-    console.log(games);
     if (games) {
         return (
             <div>

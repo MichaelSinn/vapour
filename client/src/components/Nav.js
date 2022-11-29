@@ -33,12 +33,10 @@ export default function Nav({genres, gameCount}) {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        console.log(searchState);
         try {
             searchGames(searchState)
                 .then((res) => {
                     setResult(res);
-                    console.log(result);
                 })
                 .catch((err) => console.log(err));
         } catch (e) {
